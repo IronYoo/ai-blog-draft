@@ -1,6 +1,6 @@
-package com.kotlin.aiblogdraftapi.api.controller.v1
+package com.kotlin.aiblogdraft.api.controller.v1
 
-import com.kotlin.aiblogdraftapi.api.controller.v1.request.CreateDraftKeyRequest
+import com.kotlin.aiblogdraft.api.controller.v1.request.CreateDraftKeyRequest
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

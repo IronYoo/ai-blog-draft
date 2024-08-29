@@ -1,1 +1,1 @@
-rootProject.name = "ai-blog-draft-api"
+rootProject.name = "ai-blog-draft"

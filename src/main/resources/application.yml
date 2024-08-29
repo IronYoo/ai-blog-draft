@@ -3,4 +3,4 @@ spring.application.name: ai-blog-draft-api
 logging:
   level:
     root: info
-    com.kotlin.aiblogdraftapi: debug
+    com.kotlin.aiblogdraft: debug

@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraftapi
+package com.kotlin.aiblogdraft
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
