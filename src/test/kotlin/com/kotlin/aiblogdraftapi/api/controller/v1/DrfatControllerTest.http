@@ -1,0 +1,7 @@
+### 초안 요청 키 획득
+POST localhost:8080/v1/draft/key
+Content-Type: application/json
+
+{
+  "userId": 1
+}
