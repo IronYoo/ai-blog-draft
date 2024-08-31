@@ -1,0 +1,16 @@
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: local-test
+      MYSQL_ROOT_PASSWORD: test
+      TZ: Asia/Seoul
+    ports:
+      - 13306:3306
+    command: mysqld --sql_mode=""
+    healthcheck:
+      test: [ 'CMD', 'mysqladmin', 'ping', '-h', 'localhost' ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
