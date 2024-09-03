@@ -14,3 +14,12 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+  localstack:
+    image: localstack/localstack
+    ports:
+      - 4572:4572
+      - 4566:4566
+    environment:
+      - SERVICES=s3
+    volumes:
+      - "./localstack-init/init.sh:/etc/localstack/init/ready.d/init-aws.sh"

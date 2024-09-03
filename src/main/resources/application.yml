@@ -18,3 +18,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+      s3:
+        region: us-east-1
+        bucket: ai-blog-draft
+      endpoint: http://127.0.0.1:4566
