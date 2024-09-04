@@ -11,3 +11,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+      s3:
+        region: test
+        bucket: test
+      endpoint: http://127.0.0.1:4566
