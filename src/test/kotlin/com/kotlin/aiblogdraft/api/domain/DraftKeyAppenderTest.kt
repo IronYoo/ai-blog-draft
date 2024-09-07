@@ -10,7 +10,7 @@ class DraftKeyAppenderTest(
     private val draftKeyAppender: DraftKeyAppender,
     private val draftKeyRepository: DraftKeyRepository,
 ) : BehaviorSpec({
-        beforeEach {
+        afterEach {
             draftKeyRepository.deleteAll()
         }
 

@@ -2,6 +2,7 @@ package com.kotlin.aiblogdraft.storage.db.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.persistence.UniqueConstraint
 
@@ -15,7 +16,8 @@ import jakarta.persistence.UniqueConstraint
 class DraftKeyEntity(
     key: String,
     userId: Long,
-) : BaseEntity() {
+) {
+    @Id
     @Column(name = "\"key\"")
     var key: String = key
         protected set

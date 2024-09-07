@@ -1,16 +1,26 @@
 package com.kotlin.aiblogdraft.api.domain
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class DraftService(
     private val draftKeyAppender: DraftKeyAppender,
+    private val draftKeyFinder: DraftKeyFinder,
+    private val draftImageAppender: DraftImageAppender,
 ) {
-    private val log = KotlinLogging.logger {}
+    fun createDraftKey(userId: Long): String {
+        val draftKey = draftKeyAppender.appendKey(AppendDraftKey(userId))
+        return draftKey
+    }
 
-    fun appendKey(userId: Long): String {
-        val key = draftKeyAppender.appendKey(AppendDraftKey(userId))
-        log.info("user($userId) appendKey: $key)")
+    fun appendImages(
+        key: String,
+        files: Array<MultipartFile>,
+        userId: Long,
+    ): List<AppendImageResult> {
+        val draftKey = draftKeyFinder.getValidDraftKey(key, userId).key
+        val result = draftImageAppender.appendImages(draftKey, files)
+        return result
     }
 }
