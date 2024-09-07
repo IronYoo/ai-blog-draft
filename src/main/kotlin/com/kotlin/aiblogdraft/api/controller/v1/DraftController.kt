@@ -1,6 +1,8 @@
 package com.kotlin.aiblogdraft.api.controller.v1
 
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreateDraftKeyRequest
+import com.kotlin.aiblogdraft.api.controller.v1.request.CreatePendingDraftRequest
+import com.kotlin.aiblogdraft.api.controller.v1.request.toAppendDraft
 import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
 import com.kotlin.aiblogdraft.api.controller.v1.response.toResponse
 import com.kotlin.aiblogdraft.api.domain.DraftService
@@ -40,4 +42,9 @@ class DraftController(
         val appendImageResult = draftService.appendImages(key, files, userId.toLong())
         return appendImageResult.map { it.toResponse() }
     }
+
+    @PostMapping()
+    fun createPendingDraft(
+        @RequestBody body: CreatePendingDraftRequest,
+    ) = draftService.requestDraft(body.userId, body.toAppendDraft())
 }
