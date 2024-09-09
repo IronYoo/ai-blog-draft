@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain
+package com.kotlin.aiblogdraft.api.domain.draftKey
 
 import com.kotlin.aiblogdraft.api.exception.DraftKeyNotAllowedException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftKeyEntity

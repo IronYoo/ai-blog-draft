@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.api.controller.v1.request
 
-import com.kotlin.aiblogdraft.api.domain.AppendDraft
-import com.kotlin.aiblogdraft.api.domain.DraftType
+import com.kotlin.aiblogdraft.api.domain.draft.AppendDraft
+import com.kotlin.aiblogdraft.api.domain.draft.DraftType
 
 data class CreatePendingDraftRequest(
     val userId: Long,

@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain
+package com.kotlin.aiblogdraft.api.domain.draftKey
 
 open class DraftKeyException(
     message: String,

@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain
+package com.kotlin.aiblogdraft.api.domain.draftImage
 
 data class AppendImageResult(
     val id: Long,

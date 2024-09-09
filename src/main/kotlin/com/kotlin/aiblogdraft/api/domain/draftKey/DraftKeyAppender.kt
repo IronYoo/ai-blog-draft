@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain
+package com.kotlin.aiblogdraft.api.domain.draftKey
 
 import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
 import io.github.oshai.kotlinlogging.KotlinLogging

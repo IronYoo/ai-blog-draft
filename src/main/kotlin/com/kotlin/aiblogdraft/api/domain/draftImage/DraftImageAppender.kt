@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain
+package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.image.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
