@@ -14,6 +14,7 @@ class DraftEntity(
     key: String,
     type: DraftEntityType,
     title: String,
+    userId: Long,
     regulationText: String? = null,
     regulationPdfUrl: String? = null,
 ) : BaseEntity() {
@@ -27,6 +28,9 @@ class DraftEntity(
         protected set
 
     var title = title
+        protected set
+
+    var userId = userId
         protected set
 
     var regulationText = regulationText

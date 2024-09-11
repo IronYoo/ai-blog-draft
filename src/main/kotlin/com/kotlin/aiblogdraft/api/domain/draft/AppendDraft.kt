@@ -6,6 +6,7 @@ data class AppendDraft(
     val key: String,
     val type: DraftType,
     val title: String,
+    val userId: Long,
 )
 
 fun AppendDraft.toEntity() =
@@ -13,4 +14,5 @@ fun AppendDraft.toEntity() =
         key = key,
         type = type.draftEntityType,
         title = title,
+        userId = userId,
     )

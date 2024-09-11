@@ -26,7 +26,7 @@ class DraftImageAppenderTest(
         given("이미지 업로드 요청 시") {
             val s3Uploader = S3UploaderStub()
             val sut =
-                DraftImageAppender(
+                DraftImageSaver(
                     draftImageGroupRepository,
                     draftImageRepository,
                     s3Uploader,
@@ -34,7 +34,7 @@ class DraftImageAppenderTest(
                 )
             val files = arrayOf(mockk<MultipartFile>(), mockk<MultipartFile>())
             When("정상적인 요청이면") {
-                val result = sut.appendImages("test-key", files)
+                val result = sut.save("test-key", files)
                 then("요청한 파일 수 만큼 이미지 url을 저장한다.") {
                     val images = draftImageRepository.findAll()
                     images.size shouldBe 2

@@ -15,4 +15,5 @@ fun CreatePendingDraftRequest.toAppendDraft() =
         key = key,
         type = type,
         title = title,
+        userId = userId,
     )

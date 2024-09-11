@@ -8,15 +8,17 @@ import com.kotlin.aiblogdraft.api.controller.v1.response.toResponse
 import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.image.S3Uploader
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("/v1/draft")
+@RequestMapping("/v1/drafts")
 class DraftController(
     private val draftService: DraftService,
     private val s3Uploader: S3Uploader,
@@ -28,7 +30,7 @@ class DraftController(
         @RequestBody body: CreateDraftKeyRequest,
     ): String {
         val userId = body.userId
-        val key = draftService.createDraftKey(userId)
+        val key = draftService.createKey(userId)
         log.info { "user(${body.userId}) issued draftKey($key)" }
         return key
     }
@@ -39,12 +41,17 @@ class DraftController(
         @RequestPart(value = "file") files: Array<MultipartFile>,
         @RequestPart(value = "userId") userId: String,
     ): List<PostDraftImageResponse> {
-        val appendImageResult = draftService.appendImages(key, files, userId.toLong())
+        val appendImageResult = draftService.saveImages(key, files, userId.toLong())
         return appendImageResult.map { it.toResponse() }
     }
 
     @PostMapping()
     fun createPendingDraft(
         @RequestBody body: CreatePendingDraftRequest,
-    ) = draftService.requestDraft(body.userId, body.toAppendDraft())
+    ) = draftService.append(body.toAppendDraft())
+
+    @GetMapping("/status")
+    fun getStatus(
+        @RequestParam(value = "userId") userId: Long,
+    ) = draftService.status(userId)
 }

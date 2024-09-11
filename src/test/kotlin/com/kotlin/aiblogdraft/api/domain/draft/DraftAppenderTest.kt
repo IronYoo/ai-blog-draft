@@ -26,6 +26,7 @@ class DraftAppenderTest(
                     key = "test-key",
                     type = DraftType.RESTAURANT,
                     title = "test-title",
+                    1L,
                 )
             When("정상적인 요청이면") {
                 val draft = draftAppender.append(appendDraft)

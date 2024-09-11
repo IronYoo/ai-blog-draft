@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 
 @Component
-class DraftImageAppender(
+class DraftImageSaver(
     private val draftImageGroupRepository: DraftImageGroupRepository,
     private val draftImageRepository: DraftImageRepository,
-    private val imageUploader: S3Uploader,
+    private val s3Uploader: S3Uploader,
     private val transactionHandler: TransactionHandler,
 ) {
-    private fun storeImages(
+    private fun store(
         draftKey: String,
         urls: List<String>,
     ): List<DraftImageEntity> {
@@ -30,11 +30,11 @@ class DraftImageAppender(
         return images
     }
 
-    fun appendImages(
+    fun save(
         draftKey: String,
         files: Array<MultipartFile>,
     ): List<AppendImageResult> {
-        val urls = imageUploader.upload(files)
-        return storeImages(draftKey, urls).map { AppendImageResult(it.id, it.url) }
+        val urls = s3Uploader.upload(files)
+        return store(draftKey, urls).map { AppendImageResult(it.id, it.url) }
     }
 }
