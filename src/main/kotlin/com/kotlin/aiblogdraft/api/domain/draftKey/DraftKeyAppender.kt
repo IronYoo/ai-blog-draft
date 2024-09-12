@@ -14,6 +14,6 @@ class DraftKeyAppender(
     fun appendKey(dto: AppendDraftKey): String {
         val key = UUID.randomUUID().toString()
         log.info { "user(${dto.userId}) append key($key)" }
-        return draftKeyRepository.save(dto.toEntity(key)).key
+        return draftKeyRepository.save(dto.toDraftKeyEntity(key)).key
     }
 }

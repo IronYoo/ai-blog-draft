@@ -8,12 +8,12 @@ data class CreatePendingDraftRequest(
     val key: String,
     val type: DraftType,
     val title: String,
-)
-
-fun CreatePendingDraftRequest.toAppendDraft() =
-    AppendDraft(
-        key = key,
-        type = type,
-        title = title,
-        userId = userId,
-    )
+) {
+    fun toAppendDraft() =
+        AppendDraft(
+            key = key,
+            type = type,
+            title = title,
+            userId = userId,
+        )
+}

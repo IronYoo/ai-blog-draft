@@ -4,10 +4,10 @@ import com.kotlin.aiblogdraft.storage.db.entity.DraftKeyEntity
 
 data class AppendDraftKey(
     val userId: Long,
-)
-
-fun AppendDraftKey.toEntity(key: String) =
-    DraftKeyEntity(
-        key = key,
-        userId = userId,
-    )
+) {
+    fun toDraftKeyEntity(key: String) =
+        DraftKeyEntity(
+            key = key,
+            userId = userId,
+        )
+}

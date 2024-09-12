@@ -5,10 +5,12 @@ import com.kotlin.aiblogdraft.api.domain.draftImage.AppendImageResult
 data class PostDraftImageResponse(
     val id: Long,
     val url: String,
-)
-
-fun AppendImageResult.toResponse() =
-    PostDraftImageResponse(
-        id = id,
-        url = url,
-    )
+) {
+    companion object {
+        fun fromAppendImageResult(result: AppendImageResult) =
+            PostDraftImageResponse(
+                id = result.id,
+                url = result.url,
+            )
+    }
+}

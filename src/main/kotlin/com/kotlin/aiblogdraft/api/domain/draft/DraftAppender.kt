@@ -14,6 +14,6 @@ class DraftAppender(
     @Transactional
     fun append(appendDraft: AppendDraft): DraftEntity {
         draftKeyRepository.deleteById(appendDraft.key)
-        return draftRepository.save(appendDraft.toEntity())
+        return draftRepository.save(appendDraft.toDraftEntity())
     }
 }

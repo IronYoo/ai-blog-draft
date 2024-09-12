@@ -2,9 +2,7 @@ package com.kotlin.aiblogdraft.api.controller.v1
 
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreateDraftKeyRequest
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreatePendingDraftRequest
-import com.kotlin.aiblogdraft.api.controller.v1.request.toAppendDraft
 import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
-import com.kotlin.aiblogdraft.api.controller.v1.response.toResponse
 import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.image.S3Uploader
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -43,7 +41,7 @@ class DraftController(
         @RequestPart(value = "userId") userId: String,
     ): List<PostDraftImageResponse> {
         val appendImageResult = draftService.saveImages(key, files, userId.toLong())
-        return appendImageResult.map { it.toResponse() }
+        return appendImageResult.map { PostDraftImageResponse.fromAppendImageResult(it) }
     }
 
     @PostMapping()

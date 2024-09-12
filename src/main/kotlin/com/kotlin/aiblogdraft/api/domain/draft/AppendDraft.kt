@@ -7,12 +7,12 @@ data class AppendDraft(
     val type: DraftType,
     val title: String,
     val userId: Long,
-)
-
-fun AppendDraft.toEntity() =
-    DraftEntity(
-        key = key,
-        type = type.draftEntityType,
-        title = title,
-        userId = userId,
-    )
+) {
+    fun toDraftEntity() =
+        DraftEntity(
+            key = key,
+            type = type.draftEntityType,
+            title = title,
+            userId = userId,
+        )
+}
