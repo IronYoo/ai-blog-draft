@@ -4,6 +4,8 @@ import com.kotlin.aiblogdraft.api.domain.draft.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.DraftAppender
 import com.kotlin.aiblogdraft.api.domain.draft.DraftReader
 import com.kotlin.aiblogdraft.api.domain.draft.DraftStatus
+import com.kotlin.aiblogdraft.api.domain.draft.DraftStatusResult
+import com.kotlin.aiblogdraft.api.domain.draft.ReadDraftResult
 import com.kotlin.aiblogdraft.api.domain.draftImage.AppendImageResult
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
 import com.kotlin.aiblogdraft.api.domain.draftKey.AppendDraftKey
@@ -22,6 +24,7 @@ class DraftService(
 ) {
     fun createKey(userId: Long): String {
         val draftKey = draftKeyAppender.appendKey(AppendDraftKey(userId))
+
         return draftKey
     }
 
@@ -32,16 +35,25 @@ class DraftService(
     ): List<AppendImageResult> {
         val draftKey = draftKeyFinder.getValidDraftKey(key, userId).key
         val result = draftImageSaver.save(draftKey, files)
+
         return result
     }
 
     fun append(appendDraft: AppendDraft): Long {
         draftKeyFinder.getValidDraftKey(appendDraft.key, appendDraft.userId).key
+
         return draftAppender.append(appendDraft).id
     }
 
-    fun status(userId: Long): List<DraftStatus> {
+    fun status(userId: Long): List<DraftStatusResult> {
         val drafts = draftReader.readByUserId(userId)
-        return drafts.map { DraftStatus(it.id, it.title, it.status.name) }
+
+        return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByEntityStatus(it.status)) }
+    }
+
+    fun read(id: Long): ReadDraftResult {
+        val draft = draftReader.readById(id)
+
+        return ReadDraftResult.fromDraftEntity(draft)
     }
 }

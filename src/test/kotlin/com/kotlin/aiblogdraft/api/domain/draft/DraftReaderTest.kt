@@ -1,8 +1,10 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
+import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,6 +29,27 @@ class DraftReaderTest(
                             "key2" -> it.title shouldBe "title2"
                         }
                     }
+                }
+            }
+        }
+
+        given("식별자로 초안을 조회할 때") {
+            When("존재하지 않는 초안이면") {
+                then("존재하지 않는 초안입니다 예외가 발생한다.") {
+                    shouldThrow<DraftNotFoundException> {
+                        draftReader.readById(1)
+                    }
+                }
+            }
+
+            val draft = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
+            When("존재하는 초안이면") {
+                val draftById = draftReader.readById(draft.id)
+                then("초안 엔티티를 반환한다.") {
+                    draftById.key shouldBe "key1"
+                    draftById.type shouldBe DraftEntityType.RESTAURANT
+                    draftById.title shouldBe "title1"
+                    draftById.userId shouldBe 1L
                 }
             }
         }

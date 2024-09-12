@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftKey
 
+import com.kotlin.aiblogdraft.api.exception.DraftKeyNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftKeyEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
 import org.springframework.stereotype.Component

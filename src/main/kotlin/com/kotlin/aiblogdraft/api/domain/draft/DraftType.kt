@@ -6,4 +6,9 @@ enum class DraftType(
     val draftEntityType: DraftEntityType,
 ) {
     RESTAURANT(DraftEntityType.RESTAURANT),
+    ;
+
+    companion object {
+        fun findByEntityType(type: DraftEntityType) = DraftType.entries.find { it.draftEntityType == type }!!
+    }
 }
