@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftKey
 
+import com.kotlin.aiblogdraft.api.domain.draftKey.dto.AppendDraftKey
 import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldNotBe

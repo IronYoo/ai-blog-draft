@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.controller.v1.response
 
-import com.kotlin.aiblogdraft.api.domain.draftImage.AppendImageResult
+import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 
 data class PostDraftImageResponse(
     val id: Long,

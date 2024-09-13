@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
+import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository

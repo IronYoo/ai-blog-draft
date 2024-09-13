@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draft
+package com.kotlin.aiblogdraft.api.domain.draft.dto
 
 import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityStatus
 

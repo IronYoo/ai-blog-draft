@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftKey
+package com.kotlin.aiblogdraft.api.domain.draftKey.dto
 
 import com.kotlin.aiblogdraft.storage.db.entity.DraftKeyEntity
 

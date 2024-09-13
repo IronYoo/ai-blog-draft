@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
+import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 import com.kotlin.aiblogdraft.image.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity

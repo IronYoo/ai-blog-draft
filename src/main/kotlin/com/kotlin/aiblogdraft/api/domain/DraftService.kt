@@ -1,17 +1,17 @@
 package com.kotlin.aiblogdraft.api.domain
 
-import com.kotlin.aiblogdraft.api.domain.draft.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.DraftAppender
-import com.kotlin.aiblogdraft.api.domain.draft.DraftContent
-import com.kotlin.aiblogdraft.api.domain.draft.DraftReadResult
 import com.kotlin.aiblogdraft.api.domain.draft.DraftReader
-import com.kotlin.aiblogdraft.api.domain.draft.DraftStatus
-import com.kotlin.aiblogdraft.api.domain.draft.DraftStatusResult
-import com.kotlin.aiblogdraft.api.domain.draftImage.AppendImageResult
+import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftContent
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftReadResult
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
-import com.kotlin.aiblogdraft.api.domain.draftKey.AppendDraftKey
+import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyAppender
 import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyFinder
+import com.kotlin.aiblogdraft.api.domain.draftKey.dto.AppendDraftKey
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 

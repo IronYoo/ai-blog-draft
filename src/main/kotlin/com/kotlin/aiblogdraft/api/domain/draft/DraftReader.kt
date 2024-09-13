@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.exception.DraftIsNotDone
 import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
