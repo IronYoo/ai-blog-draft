@@ -58,4 +58,9 @@ class DraftController(
     fun get(
         @PathVariable(value = "id") id: Long,
     ) = draftService.read(id)
+
+    @GetMapping("/{id}/content")
+    fun getContent(
+        @PathVariable(value = "id") id: Long,
+    ) = draftService.content(id)
 }

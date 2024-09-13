@@ -13,3 +13,7 @@ Content-Type: application/json
 ### 초안 조회
 GET localhost:8080/v1/drafts/1
 Content-Type: application/json
+
+### 본문 조회
+GET localhost:8080/v1/drafts/1/content
+Content-Type: application/json

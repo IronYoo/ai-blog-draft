@@ -43,4 +43,13 @@ class DraftEntity(
     @Column(columnDefinition = "varchar(255)")
     var status = DraftEntityStatus.PENDING
         protected set
+
+    @Column(columnDefinition = "TEXT")
+    var content: String? = null
+        protected set
+
+    fun writeContent(content: String) {
+        status = DraftEntityStatus.DONE
+        this.content = content
+    }
 }

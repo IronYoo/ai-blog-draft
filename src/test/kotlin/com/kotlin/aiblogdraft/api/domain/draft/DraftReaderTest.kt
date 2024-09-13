@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
+import com.kotlin.aiblogdraft.api.exception.DraftIsNotDone
 import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType
@@ -50,6 +51,27 @@ class DraftReaderTest(
                     draftById.type shouldBe DraftEntityType.RESTAURANT
                     draftById.title shouldBe "title1"
                     draftById.userId shouldBe 1L
+                }
+            }
+        }
+
+        given("본문 조회 시") {
+            val draft1 = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
+            When("처리되지 않은 상태라면") {
+                then("완료되지 않은 초안 예외가 발생한다.") {
+                    shouldThrow<DraftIsNotDone> {
+                        draftReader.readDoneById(draft1.id)
+                    }
+                }
+            }
+
+            val draft2 = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
+            draft2.writeContent("test content")
+            draftRepository.save(draft2)
+            When("본문 작성이 완료된 초안이면") {
+                val done = draftReader.readDoneById(draft2.id)
+                then("초안 엔티티를 반환한다.") {
+                    done.id shouldBe draft2.id
                 }
             }
         }
