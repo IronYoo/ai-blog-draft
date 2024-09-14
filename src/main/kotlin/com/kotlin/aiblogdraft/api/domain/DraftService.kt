@@ -7,6 +7,7 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftContent
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftReadResult
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
+import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageFinder
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyAppender
@@ -22,6 +23,7 @@ class DraftService(
     private val draftImageSaver: DraftImageSaver,
     private val draftAppender: DraftAppender,
     private val draftReader: DraftReader,
+    private val draftImageFinder: DraftImageFinder,
 ) {
     fun createKey(userId: Long): String {
         val draftKey = draftKeyAppender.appendKey(AppendDraftKey(userId))
@@ -60,6 +62,8 @@ class DraftService(
 
     fun content(id: Long): DraftContent {
         val draft = draftReader.readDoneById(id)
-        return DraftContent.fromDraftEntity(draft)
+        val imageGroups = draftImageFinder.findImageGroups(draft.key)
+
+        return DraftContent.fromDraftEntityAndImageGroups(draft, imageGroups)
     }
 }
