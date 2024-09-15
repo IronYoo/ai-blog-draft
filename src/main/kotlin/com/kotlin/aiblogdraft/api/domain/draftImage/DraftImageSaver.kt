@@ -1,6 +1,5 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
-import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 import com.kotlin.aiblogdraft.image.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
@@ -34,8 +33,9 @@ class DraftImageSaver(
     fun save(
         draftKey: String,
         files: Array<MultipartFile>,
-    ): List<AppendImageResult> {
+    ): List<DraftImageEntity> {
         val urls = s3Uploader.upload(files)
-        return store(draftKey, urls).map { AppendImageResult(it.id, it.url) }
+
+        return store(draftKey, urls)
     }
 }

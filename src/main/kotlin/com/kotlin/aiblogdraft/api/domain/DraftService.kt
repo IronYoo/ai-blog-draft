@@ -37,9 +37,9 @@ class DraftService(
         userId: Long,
     ): List<AppendImageResult> {
         val draftKey = draftKeyFinder.getValidDraftKey(key, userId).key
-        val result = draftImageSaver.save(draftKey, files)
+        val images = draftImageSaver.save(draftKey, files)
 
-        return result
+        return images.map { AppendImageResult.fromImageEntity(it) }
     }
 
     fun append(appendDraft: AppendDraft): Long {
