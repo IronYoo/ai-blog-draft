@@ -21,7 +21,7 @@ class DraftReaderTest(
             val draft1 = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
             val draft2 = draftRepository.save(DraftEntity("key2", DraftEntityType.RESTAURANT, "title2", 1L))
             When("정상적인 요청이면") {
-                val draftsByUserId = draftReader.readByUserId(1L)
+                val draftsByUserId = draftReader.readAllByUserId(1L)
                 then("등록된 초안을 모두 반환한다") {
                     draftsByUserId.size shouldBe 2
                     draftsByUserId.forEach {

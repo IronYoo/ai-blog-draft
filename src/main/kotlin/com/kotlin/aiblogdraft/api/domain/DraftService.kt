@@ -49,7 +49,7 @@ class DraftService(
     }
 
     fun status(userId: Long): List<DraftStatusResult> {
-        val drafts = draftReader.readByUserId(userId)
+        val drafts = draftReader.readAllByUserId(userId)
 
         return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByStatus(it.status)) }
     }

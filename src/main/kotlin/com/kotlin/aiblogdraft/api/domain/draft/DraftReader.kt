@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 class DraftReader(
     private val draftRepository: DraftRepository,
 ) {
-    fun readByUserId(userId: Long) = draftRepository.findByUserId(userId)
+    fun readAllByUserId(userId: Long) = draftRepository.findByUserIdOrderByCreatedAtDesc(userId)
 
     fun readById(id: Long) = draftRepository.findByIdOrNull(id) ?: throw DraftNotFoundException()
 
