@@ -27,3 +27,7 @@ spring:
         region: us-east-1
         bucket: ai-blog-draft
       endpoint: http://127.0.0.1:4566
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB

@@ -57,10 +57,6 @@ class DraftController(
     @GetMapping("/{id}")
     fun get(
         @PathVariable(value = "id") id: Long,
-    ) = draftService.read(id)
-
-    @GetMapping("/{id}/content")
-    fun getContent(
-        @PathVariable(value = "id") id: Long,
-    ) = draftService.content(id)
+        @RequestParam(value = "userId") userId: Long,
+    ) = draftService.read(id, userId)
 }

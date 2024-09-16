@@ -1,13 +1,12 @@
 package com.kotlin.aiblogdraft.api.domain
 
 import com.kotlin.aiblogdraft.api.domain.draft.DraftAppender
+import com.kotlin.aiblogdraft.api.domain.draft.DraftFinder
 import com.kotlin.aiblogdraft.api.domain.draft.DraftReader
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
-import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftContent
-import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftReadResult
+import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
-import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageFinder
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
 import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyAppender
@@ -23,7 +22,7 @@ class DraftService(
     private val draftImageSaver: DraftImageSaver,
     private val draftAppender: DraftAppender,
     private val draftReader: DraftReader,
-    private val draftImageFinder: DraftImageFinder,
+    private val draftFinder: DraftFinder,
 ) {
     fun createKey(userId: Long): String {
         val draftKey = draftKeyAppender.appendKey(AppendDraftKey(userId))
@@ -54,16 +53,12 @@ class DraftService(
         return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByStatus(it.status)) }
     }
 
-    fun read(id: Long): DraftReadResult {
-        val draft = draftReader.readById(id)
+    fun read(
+        id: Long,
+        userId: Long,
+    ): Draft {
+        val draftWithImageGroups = draftFinder.findWithImageGroupsById(id, userId)
 
-        return DraftReadResult.fromDraftEntity(draft)
-    }
-
-    fun content(id: Long): DraftContent {
-        val draft = draftReader.readDoneById(id)
-        val imageGroups = draftImageFinder.findImageGroups(draft.key)
-
-        return DraftContent.fromDraftEntityAndImageGroups(draft, imageGroups)
+        return Draft.fromDraftWithImageGroups(draftWithImageGroups)
     }
 }
