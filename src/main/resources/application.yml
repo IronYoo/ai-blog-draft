@@ -1,9 +1,7 @@
 spring.application.name: ai-blog-draft-api
 
 logging:
-  level:
-    root: info
-    com.kotlin.aiblogdraft: debug
+  config: classpath:logback/logback-${spring.profiles.active}.xml
 
 spring:
   datasource:
