@@ -1,9 +1,12 @@
 package com.kotlin.aiblogdraft.api.controller.v1
 
+import com.kotlin.aiblogdraft.api.config.ApiResponse
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreateDraftKeyRequest
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreatePendingDraftRequest
 import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
 import com.kotlin.aiblogdraft.api.domain.DraftService
+import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.image.S3Uploader
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,11 +30,12 @@ class DraftController(
     @PostMapping("/key")
     fun createDraftKey(
         @RequestBody body: CreateDraftKeyRequest,
-    ): String {
+    ): ApiResponse<String> {
         val userId = body.userId
         val key = draftService.createKey(userId)
         log.info { "user(${body.userId}) issued draftKey($key)" }
-        return key
+
+        return ApiResponse.success(key)
     }
 
     @PostMapping("/images")
@@ -39,24 +43,38 @@ class DraftController(
         @RequestPart(value = "key") key: String,
         @RequestPart(value = "file") files: Array<MultipartFile>,
         @RequestPart(value = "userId") userId: String,
-    ): List<PostDraftImageResponse> {
+    ): ApiResponse<List<PostDraftImageResponse>> {
         val appendImageResult = draftService.saveImages(key, files, userId.toLong())
-        return appendImageResult.map { PostDraftImageResponse.fromAppendImageResult(it) }
+        val response = appendImageResult.map { PostDraftImageResponse.fromAppendImageResult(it) }
+
+        return ApiResponse.success(response)
     }
 
     @PostMapping()
     fun createPendingDraft(
         @RequestBody body: CreatePendingDraftRequest,
-    ) = draftService.append(body.toAppendDraft())
+    ): ApiResponse<Long> {
+        val id = draftService.append(body.toAppendDraft())
+
+        return ApiResponse.success(id)
+    }
 
     @GetMapping("/status")
     fun getStatus(
         @RequestParam(value = "userId") userId: Long,
-    ) = draftService.status(userId)
+    ): ApiResponse<List<DraftStatusResult>> {
+        val status = draftService.status(userId)
+
+        return ApiResponse.success(status)
+    }
 
     @GetMapping("/{id}")
     fun get(
         @PathVariable(value = "id") id: Long,
         @RequestParam(value = "userId") userId: Long,
-    ) = draftService.read(id, userId)
+    ): ApiResponse<Draft> {
+        val draftWithImageGroups = draftService.read(id, userId)
+
+        return ApiResponse.success(draftWithImageGroups)
+    }
 }
