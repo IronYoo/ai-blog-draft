@@ -23,6 +23,7 @@ data class ApiResponse<T>(
         fun <S> error(
             error: ExceptionType,
             data: Any? = null,
-        ): ApiResponse<S> = ApiResponse(ResultType.ERROR, null, error.message, ApiException(error, data))
+            message: String? = null,
+        ): ApiResponse<S> = ApiResponse(ResultType.ERROR, null, message ?: error.message, ApiException(error, data))
     }
 }

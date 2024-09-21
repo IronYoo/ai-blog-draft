@@ -9,6 +9,7 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.image.S3Uploader
 import io.github.oshai.kotlinlogging.KotlinLogging
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -52,7 +53,7 @@ class DraftController(
 
     @PostMapping()
     fun createPendingDraft(
-        @RequestBody body: CreatePendingDraftRequest,
+        @Valid @RequestBody body: CreatePendingDraftRequest,
     ): ApiResponse<Long> {
         val id = draftService.append(body.toAppendDraft())
 
