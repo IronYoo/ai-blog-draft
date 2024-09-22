@@ -9,42 +9,46 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
-import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyAppender
-import com.kotlin.aiblogdraft.api.domain.draftKey.DraftKeyFinder
-import com.kotlin.aiblogdraft.api.domain.draftKey.dto.AppendDraftKey
+import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempAppender
+import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
+import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class DraftService(
-    private val draftKeyAppender: DraftKeyAppender,
-    private val draftKeyFinder: DraftKeyFinder,
+    private val draftTempAppender: DraftTempAppender,
+    private val draftTempFinder: DraftTempFinder,
     private val draftImageSaver: DraftImageSaver,
     private val draftAppender: DraftAppender,
     private val draftReader: DraftReader,
     private val draftFinder: DraftFinder,
 ) {
-    fun createKey(userId: Long): String {
-        val draftKey = draftKeyAppender.appendKey(AppendDraftKey(userId))
+    fun start(userId: Long): Long {
+        val tempId = draftTempAppender.append(AppendDraftTemp(userId))
 
-        return draftKey
+        return tempId
     }
 
     fun saveImages(
-        key: String,
+        tempId: Long,
         files: Array<MultipartFile>,
         userId: Long,
     ): List<AppendImageResult> {
-        val draftKey = draftKeyFinder.getValidDraftKey(key, userId).key
-        val images = draftImageSaver.save(draftKey, files)
+        val draftTempId = draftTempFinder.getValid(tempId, userId).id
+        val images = draftImageSaver.save(draftTempId, files)
 
         return images.map { AppendImageResult.fromImageEntity(it) }
     }
 
-    fun append(appendDraft: AppendDraft): Long {
-        draftKeyFinder.getValidDraftKey(appendDraft.key, appendDraft.userId).key
+    fun append(
+        tempId: Long,
+        userId: Long,
+        appendDraft: AppendDraft,
+    ): Long {
+        draftTempFinder.getValid(tempId, userId)
 
-        return draftAppender.append(appendDraft).id
+        return draftAppender.append(tempId, userId, appendDraft).id
     }
 
     fun status(userId: Long): List<DraftStatusResult> {

@@ -17,16 +17,16 @@ class DraftReaderTest(
         }
 
         given("유저의 초안 조회 시") {
-            val draft1 = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
-            val draft2 = draftRepository.save(DraftEntity("key2", DraftEntityType.RESTAURANT, "title2", 1L))
+            val draft1 = draftRepository.save(DraftEntity(DraftEntityType.RESTAURANT, "title1", 1L))
+            val draft2 = draftRepository.save(DraftEntity(DraftEntityType.RESTAURANT, "title2", 1L))
             When("정상적인 요청이면") {
                 val draftsByUserId = draftReader.readAllByUserId(1L)
                 then("등록된 초안을 모두 반환한다") {
                     draftsByUserId.size shouldBe 2
                     draftsByUserId.forEach {
-                        when (it.key) {
-                            "key1" -> it.title shouldBe "title1"
-                            "key2" -> it.title shouldBe "title2"
+                        when (it.id) {
+                            draft1.id -> it.title shouldBe "title1"
+                            draft2.id -> it.title shouldBe "title2"
                         }
                     }
                 }

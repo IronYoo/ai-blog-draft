@@ -20,7 +20,7 @@ class CustomDraftRepositoryImpl :
             from(draftEntity)
                 .select(draftEntity, draftImageEntity, draftImageGroupEntity)
                 .join(draftImageGroupEntity)
-                .on(draftEntity.key.eq(draftImageGroupEntity.key))
+                .on(draftEntity.id.eq(draftImageGroupEntity.draftId))
                 .join(draftImageEntity)
                 .on(draftImageEntity.draftImageGroupId.eq(draftImageGroupEntity.id))
                 .where(draftEntity.id.eq(id))

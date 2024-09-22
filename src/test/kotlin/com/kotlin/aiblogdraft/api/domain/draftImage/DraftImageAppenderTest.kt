@@ -4,7 +4,6 @@ import com.kotlin.aiblogdraft.api.image.S3UploaderStub
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
-import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
@@ -13,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile
 
 @SpringBootTest
 class DraftImageAppenderTest(
-    private val draftKeyRepository: DraftKeyRepository,
     private val draftImageGroupRepository: DraftImageGroupRepository,
     private val draftImageRepository: DraftImageRepository,
     private val transactionHandler: TransactionHandler = mockk(relaxed = true),
@@ -34,9 +32,8 @@ class DraftImageAppenderTest(
                 )
             val files = arrayOf(mockk<MultipartFile>(), mockk<MultipartFile>())
             When("정상적인 요청이면") {
-                val result = sut.save("test-key", files)
-                then("요청한 파일 수 만큼 이미지 url을 저장한다.") {
-                    val images = draftImageRepository.findAll()
+                val images = sut.save(1L, files)
+                then("요청한 파일 수 만큼 이미지 엔티티를 저장한다.") {
                     images.size shouldBe 2
                 }
             }

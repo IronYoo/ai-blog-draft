@@ -27,7 +27,7 @@ class ApiControllerAdvice {
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ResponseEntity<ApiResponse<Any>> {
         log.error { "[${e.message}] $e" }
-        return ResponseEntity(ApiResponse.error(ExceptionType.DRAFT_NOT_FOUNT), ExceptionType.DEFAULT_ERROR.status)
+        return ResponseEntity(ApiResponse.error(ExceptionType.DEFAULT_ERROR), ExceptionType.DEFAULT_ERROR.status)
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)

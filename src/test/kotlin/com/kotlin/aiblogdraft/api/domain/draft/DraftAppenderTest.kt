@@ -2,9 +2,9 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftType
-import com.kotlin.aiblogdraft.storage.db.entity.DraftKeyEntity
-import com.kotlin.aiblogdraft.storage.db.repository.DraftKeyRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,30 +13,27 @@ import org.springframework.data.repository.findByIdOrNull
 @SpringBootTest
 class DraftAppenderTest(
     private val draftAppender: DraftAppender,
-    private val draftKeyRepository: DraftKeyRepository,
+    private val draftTempRepository: DraftTempRepository,
     private val draftRepository: DraftRepository,
 ) : BehaviorSpec({
         afterEach {
-            draftKeyRepository.deleteAll()
+            draftTempRepository.deleteAll()
             draftRepository.deleteAll()
         }
 
         given("초안 추가 시") {
-            draftKeyRepository.save(DraftKeyEntity("test-key", 1L))
+            val temp = draftTempRepository.save(DraftTempEntity(1L))
             val appendDraft =
                 AppendDraft(
-                    key = "test-key",
                     type = DraftType.RESTAURANT,
                     title = "test-title",
-                    1L,
                 )
             When("정상적인 요청이면") {
-                val draft = draftAppender.append(appendDraft)
-                val draftKey = draftKeyRepository.findByIdOrNull("test-key")
+                val draft = draftAppender.append(temp.id, 1L, appendDraft)
+                val findTemp = draftTempRepository.findByIdOrNull(draft.id)
 
-                then("키를 삭제하고 초안을 추가한다") {
-                    draftKey shouldBe null
-                    draft.key shouldBe "test-key"
+                then("임시 초안을 삭제하고 초안을 추가한다") {
+                    findTemp shouldBe null
                     draft.type shouldBe DraftType.RESTAURANT.draftEntityType
                     draft.title shouldBe "test-title"
                 }

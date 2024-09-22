@@ -35,13 +35,14 @@ class DraftFinderTest(
                 }
             }
 
-            val imageGroup = draftImageGroupRepository.save(DraftImageGroupEntity("key1"))
+            val draft = draftRepository.save(DraftEntity(DraftEntityType.RESTAURANT, "title1", 1L))
+            val draftImageGroup = DraftImageGroupEntity(1L)
+            draftImageGroup.updateDraftId(draft.id)
+            val imageGroup = draftImageGroupRepository.save(draftImageGroup)
             draftImageRepository.save(DraftImageEntity("test-url", imageGroup.id))
-            val draft = draftRepository.save(DraftEntity("key1", DraftEntityType.RESTAURANT, "title1", 1L))
             When("존재하는 초안이면") {
                 val result = draftFinder.findWithImageGroupsById(draft.id, 1L)
                 then("이미지와 함께 초안 데이터를 반환한다") {
-                    result.draft.key shouldBe "key1"
                     result.draft.type shouldBe DraftEntityType.RESTAURANT
                     result.draft.title shouldBe "title1"
                     result.groups.size shouldBe 1

@@ -3,14 +3,11 @@ package com.kotlin.aiblogdraft.api.domain.draft.dto
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 
 data class AppendDraft(
-    val key: String,
     val type: DraftType,
     val title: String,
-    val userId: Long,
 ) {
-    fun toDraftEntity() =
+    fun toDraftEntity(userId: Long) =
         DraftEntity(
-            key = key,
             type = type.draftEntityType,
             title = title,
             userId = userId,

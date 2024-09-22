@@ -7,9 +7,7 @@ data class Draft(
     val type: DraftType,
     val title: String,
     val regulationText: String?,
-    val regulationPdfUrl: String?,
     val status: DraftStatus,
-    val content: String?,
     val groups: List<DraftImageGroup>,
 ) {
     companion object {
@@ -19,9 +17,7 @@ data class Draft(
                 type = DraftType.findByEntityType(dto.draft.type),
                 title = dto.draft.title,
                 regulationText = dto.draft.regulationText,
-                regulationPdfUrl = dto.draft.regulationPdfUrl,
                 status = DraftStatus.findByStatus(dto.draft.status),
-                content = dto.draft.content,
                 groups =
                     dto.groups.map { group ->
                         val images = group.images.map { DraftImage(it.id, it.url) }

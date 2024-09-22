@@ -11,17 +11,11 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "draft")
 class DraftEntity(
-    key: String,
     type: DraftEntityType,
     title: String,
     userId: Long,
     regulationText: String? = null,
-    regulationPdfUrl: String? = null,
 ) : BaseEntity() {
-    @Column(name = "\"key\"")
-    var key = key
-        protected set
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(10)")
     var type = type
@@ -36,20 +30,8 @@ class DraftEntity(
     var regulationText = regulationText
         protected set
 
-    var regulationPdfUrl = regulationPdfUrl
-        protected set
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255)")
     var status = DraftEntityStatus.PENDING
         protected set
-
-    @Column(columnDefinition = "TEXT")
-    var content: String? = null
-        protected set
-
-    fun writeContent(content: String) {
-        status = DraftEntityStatus.DONE
-        this.content = content
-    }
 }

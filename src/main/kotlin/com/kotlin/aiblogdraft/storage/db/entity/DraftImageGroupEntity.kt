@@ -1,15 +1,22 @@
 package com.kotlin.aiblogdraft.storage.db.entity
 
-import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 
 @Entity
 @Table(name = "draft_image_group")
 class DraftImageGroupEntity(
-    key: String,
+    draftTempId: Long,
 ) : BaseEntity() {
-    @Column(name = "\"key\"")
-    var key: String = key
+    var draftId: Long? = null
         protected set
+
+    var draftTempId: Long? = draftTempId
+        protected set
+
+    fun updateDraftId(draftId: Long) {
+        println(draftId)
+        this.draftId = draftId
+        println(this.draftId)
+    }
 }

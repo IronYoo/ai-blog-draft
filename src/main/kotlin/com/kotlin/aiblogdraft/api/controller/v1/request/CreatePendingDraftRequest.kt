@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length
 
 data class CreatePendingDraftRequest(
     val userId: Long,
-    val key: String,
+    val tempId: Long,
     val type: DraftType,
     @field:NotBlank
     @field:Length(min = 2, max = 255, message = "제목은 2자 이상, 255자 이하이어야 합니다.")
@@ -15,9 +15,7 @@ data class CreatePendingDraftRequest(
 ) {
     fun toAppendDraft() =
         AppendDraft(
-            key = key,
             type = type,
             title = title,
-            userId = userId,
         )
 }

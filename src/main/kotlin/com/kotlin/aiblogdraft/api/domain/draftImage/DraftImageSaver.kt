@@ -17,12 +17,12 @@ class DraftImageSaver(
     private val transactionHandler: TransactionHandler,
 ) {
     private fun store(
-        draftKey: String,
+        tempId: Long,
         urls: List<String>,
     ): List<DraftImageEntity> {
         val images =
             transactionHandler.executeTransaction {
-                val groupId = draftImageGroupRepository.save(DraftImageGroupEntity(draftKey)).id
+                val groupId = draftImageGroupRepository.save(DraftImageGroupEntity(tempId)).id
                 val imageEntities = urls.map { url -> DraftImageEntity(url, groupId) }
                 draftImageRepository.saveAll(imageEntities)
             }
@@ -31,11 +31,11 @@ class DraftImageSaver(
     }
 
     fun save(
-        draftKey: String,
+        tempId: Long,
         files: Array<MultipartFile>,
     ): List<DraftImageEntity> {
         val urls = s3Uploader.upload(files)
 
-        return store(draftKey, urls)
+        return store(tempId, urls)
     }
 }
