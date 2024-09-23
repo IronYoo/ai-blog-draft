@@ -20,4 +20,8 @@ enum class ExceptionType(
 
     // Validation
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "잘못된 요청입니다", LogLevel.WARN),
+
+    // Draft Image Exception
+    DRAFT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이미지입니다", LogLevel.WARN),
+    DRAFT_IMAGE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근할 수 없는 이미지입니다", LogLevel.WARN),
 }

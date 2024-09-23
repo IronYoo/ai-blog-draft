@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 class DraftFinder(
     private val draftRepository: DraftRepository,
 ) {
-    fun findWithImageGroupsById(
+    fun findByIdWithImageGroups(
         id: Long,
         userId: Long,
     ): DraftWithImageGroups {

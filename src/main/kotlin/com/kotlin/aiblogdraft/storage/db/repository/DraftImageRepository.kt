@@ -4,5 +4,5 @@ import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface DraftImageRepository : JpaRepository<DraftImageEntity, Long> {
-    fun findAllByDraftImageGroupId(draftImageGroupId: Long): List<DraftImageEntity>
+    fun countByDraftImageGroupId(draftImageGroupId: Long): Int
 }

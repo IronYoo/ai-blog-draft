@@ -5,6 +5,7 @@ import com.kotlin.aiblogdraft.api.controller.v1.request.CreatePendingDraftReques
 import com.kotlin.aiblogdraft.api.controller.v1.request.StartDraftRequest
 import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
 import com.kotlin.aiblogdraft.api.controller.v1.response.StartDraftResponse
+import com.kotlin.aiblogdraft.api.domain.DraftImageService
 import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("/v1/drafts")
 class DraftController(
     private val draftService: DraftService,
+    private val draftImageService: DraftImageService,
 ) {
     private val log = KotlinLogging.logger {}
 
@@ -42,7 +44,7 @@ class DraftController(
         @RequestPart(value = "file") files: Array<MultipartFile>,
         @RequestPart(value = "userId") userId: String,
     ): ApiResponse<List<PostDraftImageResponse>> {
-        val appendImageResult = draftService.saveImages(tempId.toLong(), files, userId.toLong())
+        val appendImageResult = draftImageService.saveImages(tempId.toLong(), files, userId.toLong())
         val response = appendImageResult.map { PostDraftImageResponse.fromAppendImageResult(it) }
 
         return ApiResponse.success(response)

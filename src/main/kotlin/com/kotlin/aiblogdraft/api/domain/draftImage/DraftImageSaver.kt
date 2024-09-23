@@ -22,8 +22,8 @@ class DraftImageSaver(
     ): List<DraftImageEntity> {
         val images =
             transactionHandler.executeTransaction {
-                val groupId = draftImageGroupRepository.save(DraftImageGroupEntity(tempId)).id
-                val imageEntities = urls.map { url -> DraftImageEntity(url, groupId) }
+                val group = draftImageGroupRepository.save(DraftImageGroupEntity(tempId))
+                val imageEntities = urls.map { url -> DraftImageEntity(url, group.id) }
                 draftImageRepository.saveAll(imageEntities)
             }
 
