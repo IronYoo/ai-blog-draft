@@ -11,6 +11,7 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -80,5 +81,14 @@ class DraftController(
         val draftWithImageGroups = draftService.read(id, userId)
 
         return ApiResponse.success(draftWithImageGroups)
+    }
+
+    @DeleteMapping("/image/{imageId}")
+    fun deleteImage(
+        @PathVariable(value = "imageId") imageId: Long,
+        @RequestParam(value = "userId") userId: Long,
+    ): ApiResponse<Nothing> {
+        draftImageService.delete(imageId, userId)
+        return ApiResponse.success()
     }
 }

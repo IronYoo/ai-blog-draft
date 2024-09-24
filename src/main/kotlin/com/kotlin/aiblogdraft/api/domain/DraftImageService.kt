@@ -1,9 +1,11 @@
 package com.kotlin.aiblogdraft.api.domain
 
+import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageRemover
 import com.kotlin.aiblogdraft.api.domain.draftImage.DraftImageSaver
-import com.kotlin.aiblogdraft.api.domain.draftImage.DraftTempImageRemover
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
+import com.kotlin.aiblogdraft.api.domain.draftImage.dto.DraftImageDeleteEvent
 import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
@@ -11,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile
 class DraftImageService(
     private val draftTempFinder: DraftTempFinder,
     private val draftImageSaver: DraftImageSaver,
-    private val draftTempImageRemover: DraftTempImageRemover,
+    private val draftImageRemover: DraftImageRemover,
+    private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
     fun saveImages(
         tempId: Long,
@@ -24,10 +27,11 @@ class DraftImageService(
         return images.map { AppendImageResult.fromImageEntity(it) }
     }
 
-    fun deleteTemp(
+    fun delete(
         imageId: Long,
         userId: Long,
     ) {
-        draftTempImageRemover.remove(imageId, userId)
+        val image = draftImageRemover.remove(imageId, userId)
+        applicationEventPublisher.publishEvent(DraftImageDeleteEvent(mutableListOf(image.url)))
     }
 }

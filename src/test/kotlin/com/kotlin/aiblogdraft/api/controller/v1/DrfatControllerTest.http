@@ -13,3 +13,7 @@ Content-Type: application/json
 ### 초안 조회
 GET localhost:8080/v1/drafts/1?userId=1
 Content-Type: application/json
+
+### 임시 초안 이미지 삭제
+DELETE localhost:8080/v1/drafts/image/1?userId=1
+Content-Type: application/json

@@ -14,8 +14,8 @@ import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class DraftTempImageRemoverTest(
-    private val draftTempImageRemover: DraftTempImageRemover,
+class DraftImageRemoverTest(
+    private val draftImageRemover: DraftImageRemover,
     private val draftTempRepository: DraftTempRepository,
     private val draftImageRepository: DraftImageRepository,
     private val draftImageGroupRepository: DraftImageGroupRepository,
@@ -36,7 +36,7 @@ class DraftTempImageRemoverTest(
             When("유저 정보가 다르면") {
                 then("접근할 수 없는 이미지 예외가 발생한다") {
                     shouldThrow<DraftImageNotAllowedException> {
-                        draftTempImageRemover.remove(deleteImage.id, 2L)
+                        draftImageRemover.remove(deleteImage.id, 2L)
                     }
                 }
             }
@@ -47,7 +47,7 @@ class DraftTempImageRemoverTest(
             deleteImage = draftImageRepository.save(DraftImageEntity("test-url2", group.id))
             When("해당 그룹에 삭제 대상외의 이미지가 있다면") {
                 val deleteImageId = deleteImage.id
-                draftTempImageRemover.remove(deleteImageId, 1L)
+                draftImageRemover.remove(deleteImageId, 1L)
                 val groupById = draftImageGroupRepository.findById(group.id).get()
                 val image = draftImageRepository.findById(deleteImageId)
                 then("이미지 그룹은 삭제하지 않고 삭제 대상 이미지만 삭제한다") {
@@ -61,7 +61,7 @@ class DraftTempImageRemoverTest(
             deleteImage = draftImageRepository.save(DraftImageEntity("test-url", group.id))
             When("해당 그룹에 삭제 대상만 있다면") {
                 val deleteImageId = deleteImage.id
-                draftTempImageRemover.remove(deleteImageId, 1L)
+                draftImageRemover.remove(deleteImageId, 1L)
                 val groupById = draftImageGroupRepository.findById(group.id)
                 val image = draftImageRepository.findById(deleteImageId)
 
