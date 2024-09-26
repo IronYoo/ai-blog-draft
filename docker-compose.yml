@@ -1,5 +1,6 @@
 services:
   mysql:
+    container_name: mysql
     platform: linux/x86_64
     image: mysql:8.0
     environment:
@@ -14,7 +15,11 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    networks:
+      - app-net
+
   localstack:
+    container_name: localstack
     image: localstack/localstack
     ports:
       - 4572:4572
@@ -23,3 +28,21 @@ services:
       - SERVICES=s3
     volumes:
       - "./localstack-init/init.sh:/etc/localstack/init/ready.d/init-aws.sh"
+    networks:
+      - app-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ACTIVE: local-container
+    ports:
+      - 3000:5000
+    networks:
+      - app-net
+    depends_on:
+      - mysql
+networks:
+  app-net:
+    driver: bridge
