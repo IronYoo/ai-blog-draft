@@ -25,4 +25,10 @@ enum class ExceptionType(
     DRAFT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이미지입니다", LogLevel.WARN),
     DRAFT_IMAGE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근할 수 없는 이미지입니다", LogLevel.WARN),
     DRAFT_IMAGE_MODIFICATION_DENIED(HttpStatus.BAD_REQUEST, "수정할 수 없는 이미지입니다.", LogLevel.WARN),
+
+    // Auth Exception
+    EMAIL_DUPLICATE_EXCEPTION(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일입니다.", LogLevel.WARN),
+    LOGIN_FAIL_EXCEPTION(HttpStatus.BAD_REQUEST, "잘못된 이메일 또는 비밀번호입니다.", LogLevel.WARN),
+    UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증되지 않은 유저입니다.", LogLevel.WARN),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다.", LogLevel.WARN),
 }

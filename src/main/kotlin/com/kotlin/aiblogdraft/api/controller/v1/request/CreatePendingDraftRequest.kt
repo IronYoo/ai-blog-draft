@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank
 import org.hibernate.validator.constraints.Length
 
 data class CreatePendingDraftRequest(
-    val userId: Long,
     val tempId: Long,
     val type: DraftType,
     @field:NotBlank
