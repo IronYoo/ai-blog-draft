@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -61,10 +60,8 @@ class DraftController(
     }
 
     @GetMapping("/status")
-    fun status(
-        @RequestParam(value = "userId") userId: Long,
-    ): ApiResponse<List<DraftStatusResult>> {
-        val status = draftService.status(userId)
+    fun status(webUser: WebUser): ApiResponse<List<DraftStatusResult>> {
+        val status = draftService.status(webUser.userId)
 
         return ApiResponse.success(status)
     }
