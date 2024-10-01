@@ -5,12 +5,14 @@ import com.kotlin.aiblogdraft.api.config.ApiResponse
 import com.kotlin.aiblogdraft.api.controller.v1.request.LoginRequest
 import com.kotlin.aiblogdraft.api.controller.v1.request.SignupRequest
 import com.kotlin.aiblogdraft.api.domain.AuthService
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "AuthController", description = "인증/인가 컨트롤러")
 @RestController
 @RequestMapping("v1/auth")
 class AuthController(

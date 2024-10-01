@@ -6,6 +6,7 @@ import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
 import com.kotlin.aiblogdraft.api.controller.v1.response.StartDraftResponse
 import com.kotlin.aiblogdraft.api.domain.DraftImageService
 import com.kotlin.aiblogdraft.api.domain.DraftService
+import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -21,7 +22,9 @@ class DraftTempController(
     private val draftImageService: DraftImageService,
 ) {
     @PostMapping("/temp")
-    fun startDraft(webUser: WebUser): ApiResponse<StartDraftResponse> {
+    fun startDraft(
+        @Parameter(hidden = true) webUser: WebUser,
+    ): ApiResponse<StartDraftResponse> {
         val tempId = draftService.start(webUser.userId)
 
         return ApiResponse.success(StartDraftResponse(tempId))
@@ -31,7 +34,7 @@ class DraftTempController(
     fun postImages(
         @RequestPart(value = "tempId") tempId: String,
         @RequestPart(value = "file") files: Array<MultipartFile>,
-        webUser: WebUser,
+        @Parameter(hidden = true) webUser: WebUser,
     ): ApiResponse<List<PostDraftImageResponse>> {
         val appendImageResult = draftImageService.saveImages(tempId.toLong(), files, webUser.userId)
         val response = appendImageResult.map { PostDraftImageResponse.fromAppendImageResult(it) }
@@ -42,7 +45,7 @@ class DraftTempController(
     @DeleteMapping("/image/{imageId}")
     fun deleteImage(
         @PathVariable(value = "imageId") imageId: Long,
-        webUser: WebUser,
+        @Parameter(hidden = true) webUser: WebUser,
     ): ApiResponse<Nothing> {
         draftImageService.delete(imageId, webUser.userId)
         return ApiResponse.success()
