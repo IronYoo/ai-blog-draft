@@ -5,11 +5,13 @@ import com.kotlin.aiblogdraft.api.domain.draft.DraftFinder
 import com.kotlin.aiblogdraft.api.domain.draft.DraftReader
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
+import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftAppendEvent
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempAppender
 import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
 import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,6 +21,7 @@ class DraftService(
     private val draftAppender: DraftAppender,
     private val draftReader: DraftReader,
     private val draftFinder: DraftFinder,
+    private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
     fun start(userId: Long): Long {
         val tempId = draftTempAppender.append(AppendDraftTemp(userId))
@@ -30,10 +33,10 @@ class DraftService(
         tempId: Long,
         userId: Long,
         appendDraft: AppendDraft,
-    ): Long {
+    ) {
         draftTempFinder.getValid(tempId, userId)
-
-        return draftAppender.append(tempId, userId, appendDraft).id
+        val draftId = draftAppender.append(tempId, userId, appendDraft).id
+        applicationEventPublisher.publishEvent(DraftAppendEvent(draftId))
     }
 
     fun status(userId: Long): List<DraftStatusResult> {

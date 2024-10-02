@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
+import com.kotlin.aiblogdraft.api.domain.draftImage.dto.DraftImageType
 import com.kotlin.aiblogdraft.image.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
@@ -8,6 +9,7 @@ import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
+import java.net.URL
 
 @Component
 class DraftImageSaver(
@@ -16,6 +18,14 @@ class DraftImageSaver(
     private val s3Uploader: S3Uploader,
     private val transactionHandler: TransactionHandler,
 ) {
+    private fun imageType(imageUrl: String): DraftImageType {
+        val url = URL(imageUrl)
+        val fileName = url.path.substringAfterLast('/')
+        val extension = fileName.substringAfterLast('.', missingDelimiterValue = "")
+
+        return DraftImageType.findByLowerCase(extension)
+    }
+
     private fun store(
         tempId: Long,
         urls: List<String>,
@@ -23,7 +33,7 @@ class DraftImageSaver(
         val images =
             transactionHandler.executeTransaction {
                 val group = draftImageGroupRepository.save(DraftImageGroupEntity(tempId))
-                val imageEntities = urls.map { url -> DraftImageEntity(url, group.id) }
+                val imageEntities = urls.map { url -> DraftImageEntity(url, group.id, imageType(url).util) }
                 draftImageRepository.saveAll(imageEntities)
             }
 

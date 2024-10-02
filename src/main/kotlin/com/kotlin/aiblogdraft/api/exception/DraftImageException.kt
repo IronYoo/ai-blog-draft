@@ -5,3 +5,5 @@ class DraftImageNotFoundException : ApiException(ExceptionType.DRAFT_IMAGE_NOT_F
 class DraftImageNotAllowedException : ApiException(ExceptionType.DRAFT_IMAGE_UNAUTHORIZED)
 
 class DraftImageModificationDeniedException : ApiException(ExceptionType.DRAFT_IMAGE_MODIFICATION_DENIED)
+
+class DraftImageNotAllowedExtension : ApiException(ExceptionType.DRAFT_IMAGE_NOT_ALLOWED_EXTENSION)

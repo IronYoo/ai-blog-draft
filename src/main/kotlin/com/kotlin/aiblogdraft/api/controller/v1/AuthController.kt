@@ -22,9 +22,9 @@ class AuthController(
     @PostMapping("/signup")
     fun signup(
         @RequestBody signupRequest: SignupRequest,
-    ) {
+    ): ApiResponse<Nothing> {
         authService.signup(signupRequest.toSignUp())
-        ApiResponse.success()
+        return ApiResponse.success()
     }
 
     @PostMapping("/login")

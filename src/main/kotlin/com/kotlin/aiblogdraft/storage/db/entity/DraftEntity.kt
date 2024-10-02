@@ -34,4 +34,12 @@ class DraftEntity(
     @Column(columnDefinition = "varchar(255)")
     var status = DraftEntityStatus.PENDING
         protected set
+
+    fun process() {
+        this.status = DraftEntityStatus.PROCESSING
+    }
+
+    fun done() {
+        this.status = DraftEntityStatus.DONE
+    }
 }

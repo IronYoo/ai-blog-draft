@@ -25,6 +25,7 @@ enum class ExceptionType(
     DRAFT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 이미지입니다", LogLevel.WARN),
     DRAFT_IMAGE_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근할 수 없는 이미지입니다", LogLevel.WARN),
     DRAFT_IMAGE_MODIFICATION_DENIED(HttpStatus.BAD_REQUEST, "수정할 수 없는 이미지입니다.", LogLevel.WARN),
+    DRAFT_IMAGE_NOT_ALLOWED_EXTENSION(HttpStatus.BAD_REQUEST, "사용할 수 없는 초안 이미지 형식 입니다.", LogLevel.WARN),
 
     // Auth Exception
     EMAIL_DUPLICATE_EXCEPTION(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일입니다.", LogLevel.WARN),

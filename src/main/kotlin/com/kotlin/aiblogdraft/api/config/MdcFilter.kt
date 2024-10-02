@@ -12,7 +12,12 @@ import jakarta.servlet.http.HttpServletResponseWrapper
 import org.slf4j.MDC
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import java.io.BufferedReader
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.io.PrintWriter
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 
@@ -27,11 +32,12 @@ class MdcFilter : OncePerRequestFilter() {
             val traceId = UUID.randomUUID().toString()
             MDC.put("traceId", traceId)
 
-            val wrappedRequest = CustomHttpServletRequestWrapper(request as HttpServletRequest)
-            val wrappedResponse = CustomHttpServletResponseWrapper(response as HttpServletResponse)
+            val wrappedRequest = CustomHttpServletRequestWrapper(request)
+            val wrappedResponse = CustomHttpServletResponseWrapper(response)
 
             logRequest(wrappedRequest)
-            filterChain.doFilter(request, response)
+            filterChain.doFilter(wrappedRequest, wrappedResponse)
+            wrappedResponse.copyBodyToResponse()
             logResponse(wrappedResponse)
         } finally {
             MDC.clear()
@@ -57,24 +63,39 @@ class CustomHttpServletRequestWrapper(
     request: HttpServletRequest,
 ) : HttpServletRequestWrapper(request) {
     val body: String
+    private var isMultipart: Boolean = false
 
     init {
-        val inputStream = request.inputStream
-        val bodyBytes = inputStream.readBytes()
-        body = String(bodyBytes, StandardCharsets.UTF_8)
+        isMultipart = request.contentType?.lowercase()?.contains("multipart/form-data") == true
+        body =
+            if (!isMultipart) {
+                request.inputStream.readBytes().toString(StandardCharsets.UTF_8)
+            } else {
+                ""
+            }
     }
 
     override fun getInputStream(): ServletInputStream =
-        object : ServletInputStream() {
-            private val inputStream = body.byteInputStream()
+        if (!isMultipart) {
+            val byteArrayInputStream = ByteArrayInputStream(body.toByteArray(StandardCharsets.UTF_8))
+            object : ServletInputStream() {
+                override fun read(): Int = byteArrayInputStream.read()
 
-            override fun read(): Int = inputStream.read()
+                override fun isFinished(): Boolean = byteArrayInputStream.available() == 0
 
-            override fun isFinished(): Boolean = inputStream.available() == 0
+                override fun isReady(): Boolean = true
 
-            override fun isReady(): Boolean = true
+                override fun setReadListener(readListener: ReadListener?) {}
+            }
+        } else {
+            super.getInputStream()
+        }
 
-            override fun setReadListener(readListener: ReadListener?) {}
+    override fun getReader(): BufferedReader =
+        if (!isMultipart) {
+            BufferedReader(InputStreamReader(getInputStream(), StandardCharsets.UTF_8))
+        } else {
+            super.getReader()
         }
 }
 
@@ -93,7 +114,25 @@ class CustomHttpServletResponseWrapper(
             override fun setWriteListener(writeListener: WriteListener?) {}
         }
 
+    private val printWriter = PrintWriter(OutputStreamWriter(outputStream, StandardCharsets.UTF_8))
+
     override fun getOutputStream(): ServletOutputStream = servletOutputStream
 
-    fun toByteArray(): ByteArray = outputStream.toByteArray()
+    override fun getWriter(): PrintWriter = printWriter
+
+    override fun flushBuffer() {
+        printWriter.flush()
+        super.flushBuffer()
+    }
+
+    fun copyBodyToResponse() {
+        val responseBytes = outputStream.toByteArray()
+        response.outputStream.write(responseBytes)
+        response.outputStream.flush()
+    }
+
+    fun toByteArray(): ByteArray {
+        flushBuffer()
+        return outputStream.toByteArray()
+    }
 }
