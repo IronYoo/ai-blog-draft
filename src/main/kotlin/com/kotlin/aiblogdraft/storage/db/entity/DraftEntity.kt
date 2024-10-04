@@ -31,7 +31,7 @@ class DraftEntity(
         protected set
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(255)")
+    @Column(columnDefinition = "varchar(10)")
     var status = DraftEntityStatus.PENDING
         protected set
 
