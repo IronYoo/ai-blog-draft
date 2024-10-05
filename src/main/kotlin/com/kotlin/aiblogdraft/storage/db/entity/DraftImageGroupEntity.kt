@@ -15,8 +15,6 @@ class DraftImageGroupEntity(
         protected set
 
     fun updateDraftId(draftId: Long) {
-        println(draftId)
         this.draftId = draftId
-        println(this.draftId)
     }
 }

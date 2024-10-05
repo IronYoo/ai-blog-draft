@@ -2,7 +2,9 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftType
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
 import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.core.spec.style.BehaviorSpec
@@ -15,6 +17,7 @@ class DraftAppenderTest(
     private val draftAppender: DraftAppender,
     private val draftTempRepository: DraftTempRepository,
     private val draftRepository: DraftRepository,
+    private val draftImageGroupRepository: DraftImageGroupRepository,
 ) : BehaviorSpec({
         afterEach {
             draftTempRepository.deleteAll()
@@ -29,6 +32,7 @@ class DraftAppenderTest(
                     title = "test-title",
                 )
             When("정상적인 요청이면") {
+                draftImageGroupRepository.save(DraftImageGroupEntity(1L))
                 val draft = draftAppender.append(temp.id, 1L, appendDraft)
                 val findTemp = draftTempRepository.findByIdOrNull(draft.id)
 

@@ -1,6 +1,7 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
+import com.kotlin.aiblogdraft.api.exception.DraftNoImageException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
@@ -23,6 +24,9 @@ class DraftAppender(
         draftTempRepository.deleteById(tempId)
         val draft = draftRepository.save(appendDraft.toDraftEntity(userId))
         val imageGroups = draftImageGroupRepository.findAllByDraftTempId(tempId)
+
+        if (imageGroups.isEmpty()) throw DraftNoImageException()
+
         imageGroups.forEach { it.updateDraftId(draft.id) }
 
         return draft

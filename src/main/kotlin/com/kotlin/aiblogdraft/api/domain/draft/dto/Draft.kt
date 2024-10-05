@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft.dto
 
-import com.kotlin.aiblogdraft.storage.db.repository.dto.DraftWithImageGroups
+import com.kotlin.aiblogdraft.storage.db.repository.dto.FindWithRelationsResult
 
 data class Draft(
     val id: Long,
@@ -11,7 +11,7 @@ data class Draft(
     val groups: List<DraftImageGroup>,
 ) {
     companion object {
-        fun fromDraftWithImageGroups(dto: DraftWithImageGroups) =
+        fun fromDetail(dto: FindWithRelationsResult) =
             Draft(
                 id = dto.draft.id,
                 type = DraftType.findByEntityType(dto.draft.type),
@@ -21,7 +21,7 @@ data class Draft(
                 groups =
                     dto.groups.map { group ->
                         val images = group.images.map { DraftImage(it.id, it.url) }
-                        DraftImageGroup(group.id, images)
+                        DraftImageGroup(group.id, images, group.content!!)
                     },
             )
     }

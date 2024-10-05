@@ -12,6 +12,7 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempAppender
 import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
 import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
+import com.kotlin.aiblogdraft.api.exception.DraftNotProcessedException
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
@@ -59,8 +60,9 @@ class DraftService(
         id: Long,
         userId: Long,
     ): Draft {
-        val draftWithImageGroups = draftFinder.findByIdWithImageGroups(id, userId)
+        val found = draftFinder.findDetail(id, userId)
+        if (DraftStatus.findByStatus(found.draft.status) != DraftStatus.DONE) throw DraftNotProcessedException()
 
-        return Draft.fromDraftWithImageGroups(draftWithImageGroups)
+        return Draft.fromDetail(found)
     }
 }

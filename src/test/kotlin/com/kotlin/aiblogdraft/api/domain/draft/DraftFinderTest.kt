@@ -30,7 +30,7 @@ class DraftFinderTest(
             When("존재하지 않는 초안이면") {
                 then("존재하지 않는 초안입니다 예외가 발생한다.") {
                     shouldThrow<DraftNotFoundException> {
-                        draftFinder.findByIdWithImageGroups(1L, 1L)
+                        draftFinder.findDetail(1L, 1L)
                     }
                 }
             }
@@ -41,7 +41,7 @@ class DraftFinderTest(
             val imageGroup = draftImageGroupRepository.save(draftImageGroup)
             draftImageRepository.save(DraftImageEntity("test-url", imageGroup.id))
             When("존재하는 초안이면") {
-                val result = draftFinder.findByIdWithImageGroups(draft.id, 1L)
+                val result = draftFinder.findDetail(draft.id, 1L)
                 then("이미지와 함께 초안 데이터를 반환한다") {
                     result.draft.type shouldBe DraftEntityType.RESTAURANT
                     result.draft.title shouldBe "title1"

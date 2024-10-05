@@ -1,28 +1,31 @@
 package com.kotlin.aiblogdraft.storage.db.repository
 
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.entity.QDraftContentEntity.draftContentEntity
 import com.kotlin.aiblogdraft.storage.db.entity.QDraftEntity.draftEntity
 import com.kotlin.aiblogdraft.storage.db.entity.QDraftImageEntity.draftImageEntity
 import com.kotlin.aiblogdraft.storage.db.entity.QDraftImageGroupEntity.draftImageGroupEntity
 import com.kotlin.aiblogdraft.storage.db.repository.dto.DraftImageGroup
-import com.kotlin.aiblogdraft.storage.db.repository.dto.DraftWithImageGroups
+import com.kotlin.aiblogdraft.storage.db.repository.dto.FindWithRelationsResult
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 interface CustomDraftRepository {
-    fun findByIdWithImageGroups(id: Long): DraftWithImageGroups?
+    fun findWithRelations(id: Long): FindWithRelationsResult?
 }
 
 class CustomDraftRepositoryImpl :
     QuerydslRepositorySupport(DraftEntity::class.java),
     CustomDraftRepository {
-    override fun findByIdWithImageGroups(id: Long): DraftWithImageGroups? {
+    override fun findWithRelations(id: Long): FindWithRelationsResult? {
         val result =
             from(draftEntity)
-                .select(draftEntity, draftImageEntity, draftImageGroupEntity)
+                .select(draftEntity, draftImageEntity, draftImageGroupEntity, draftContentEntity)
                 .join(draftImageGroupEntity)
                 .on(draftEntity.id.eq(draftImageGroupEntity.draftId))
                 .join(draftImageEntity)
                 .on(draftImageEntity.draftImageGroupId.eq(draftImageGroupEntity.id))
+                .leftJoin(draftContentEntity)
+                .on(draftContentEntity.imageGroupId.eq(draftImageGroupEntity.id))
                 .where(draftEntity.id.eq(id))
                 .orderBy(draftImageGroupEntity.createdAt.asc())
                 .fetch()
@@ -35,9 +38,10 @@ class CustomDraftRepositoryImpl :
                 DraftImageGroup(
                     id = group!!.id,
                     images = tuples.mapNotNull { it.get(draftImageEntity) },
+                    content = tuples.firstNotNullOfOrNull { it.get(draftContentEntity) }?.content,
                 )
             }
 
-        return DraftWithImageGroups(draft, groups)
+        return FindWithRelationsResult(draft, groups)
     }
 }

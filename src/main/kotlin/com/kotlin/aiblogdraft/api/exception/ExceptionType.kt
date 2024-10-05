@@ -13,6 +13,8 @@ enum class ExceptionType(
     // Draft Exception
     DRAFT_NOT_FOUNT(HttpStatus.NOT_FOUND, "존재하지 않는 초안입니다", LogLevel.WARN),
     DRAFT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "접근할 수 없는 초안입니다", LogLevel.WARN),
+    DRAFT_NOT_PROCESSED(HttpStatus.BAD_REQUEST, "처리되지 않은 초안입니다.", LogLevel.WARN),
+    DRAFT_NO_IMAGES(HttpStatus.BAD_REQUEST, "이미지가 없는 초안을 등록할 수 없습니다.", LogLevel.WARN),
 
     // Draft Temp Exception
     DRAFT_TEMP_NOT_FOUNT(HttpStatus.NOT_FOUND, "존재하지 않는 초안 키 입니다", LogLevel.WARN),

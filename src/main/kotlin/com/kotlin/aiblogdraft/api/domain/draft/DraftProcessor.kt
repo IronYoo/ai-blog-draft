@@ -32,11 +32,11 @@ class DraftProcessor(
     }
 
     fun process(draftId: Long) {
-        val draftWithImageGroups = draftRepository.findByIdWithImageGroups(draftId) ?: throw DraftNotFoundException()
-        val draft = draftWithImageGroups.draft
-        val imageGroups = draftWithImageGroups.groups
+        val found = draftRepository.findWithRelations(draftId) ?: throw DraftNotFoundException()
+        val draft = found.draft
+        val imageGroups = found.groups
 
-        ready(draftWithImageGroups.draft)
+        ready(found.draft)
         imageGroups.forEach {
             val content = aiDraftGenerator.generate(draft, it)
             writeContent(it.id, content)
