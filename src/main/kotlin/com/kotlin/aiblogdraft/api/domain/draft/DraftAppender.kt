@@ -21,12 +21,11 @@ class DraftAppender(
         userId: Long,
         appendDraft: AppendDraft,
     ): DraftEntity {
-        draftTempRepository.deleteById(tempId)
-        val draft = draftRepository.save(appendDraft.toDraftEntity(userId))
         val imageGroups = draftImageGroupRepository.findAllByDraftTempId(tempId)
-
         if (imageGroups.isEmpty()) throw DraftNoImageException()
 
+        draftTempRepository.deleteById(tempId)
+        val draft = draftRepository.save(appendDraft.toDraftEntity(userId))
         imageGroups.forEach { it.updateDraftId(draft.id) }
 
         return draft
