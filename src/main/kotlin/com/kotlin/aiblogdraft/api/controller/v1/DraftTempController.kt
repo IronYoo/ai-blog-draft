@@ -6,8 +6,11 @@ import com.kotlin.aiblogdraft.api.controller.v1.response.PostDraftImageResponse
 import com.kotlin.aiblogdraft.api.controller.v1.response.StartDraftResponse
 import com.kotlin.aiblogdraft.api.domain.DraftImageService
 import com.kotlin.aiblogdraft.api.domain.DraftService
+import com.kotlin.aiblogdraft.api.domain.DraftTempService
+import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
 import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile
 class DraftTempController(
     private val draftService: DraftService,
     private val draftImageService: DraftImageService,
+    private val draftTempService: DraftTempService,
+    private val draftTempFinder: DraftTempFinder,
 ) {
     @PostMapping("/temp")
     fun startDraft(
@@ -49,5 +54,13 @@ class DraftTempController(
     ): ApiResponse<Nothing> {
         draftImageService.delete(imageId, webUser.userId)
         return ApiResponse.success()
+    }
+
+    @PatchMapping("/{id}/extend")
+    fun extend(
+        @Parameter(hidden = true) webUser: WebUser,
+        @PathVariable(value = "id") id: Long,
+    ) {
+        draftTempService.extend(id, webUser.userId)
     }
 }
