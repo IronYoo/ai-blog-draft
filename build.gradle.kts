@@ -35,6 +35,8 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3:3.2.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    testImplementation("org.springframework.batch:spring-batch-test")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
