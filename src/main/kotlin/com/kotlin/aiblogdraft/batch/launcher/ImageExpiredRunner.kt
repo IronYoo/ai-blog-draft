@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.batch.job
+package com.kotlin.aiblogdraft.batch.launcher
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.batch.core.Job

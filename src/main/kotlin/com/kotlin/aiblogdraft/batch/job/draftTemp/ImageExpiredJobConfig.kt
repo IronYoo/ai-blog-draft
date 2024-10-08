@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.batch.job
+package com.kotlin.aiblogdraft.batch.job.draftTemp
 
 import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository

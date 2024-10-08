@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.batch.job
+package com.kotlin.aiblogdraft.batch.launcher
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
