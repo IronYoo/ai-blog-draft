@@ -41,7 +41,7 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 
-        implementation("io.awspring.cloud:spring-cloud-aws-starter-s3:3.2.0")
+
         implementation("org.springframework.boot:spring-boot-starter-validation")
         implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-batch")

@@ -9,4 +9,6 @@ tasks.getByName("jar") {
 dependencies {
     implementation(project(":storage"))
     implementation(project(":logging"))
+    implementation(project(":cloud"))
+    implementation(project(":cloud:image"))
 }

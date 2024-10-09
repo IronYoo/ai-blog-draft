@@ -4,4 +4,6 @@ include(
     "draft-api",
     "storage",
     "logging",
+    "cloud",
+    "cloud:image"
 )

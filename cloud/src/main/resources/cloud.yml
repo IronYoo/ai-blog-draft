@@ -1,0 +1,31 @@
+spring.application.name=cloud
+
+---
+spring.config.activate.on-profile: local-container
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+
+---
+spring.config.activate.on-profile: local
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+
+---
+spring.config.activate.on-profile: live
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_APP_ACCESS_KEY}
+        secret-key: ${AWS_APP_SECRET_KEY}

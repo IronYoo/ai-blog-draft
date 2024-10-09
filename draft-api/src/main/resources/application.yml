@@ -4,65 +4,31 @@ spring:
     import:
       - storage.yml
       - logging.yml
-
+      - cloud.yml
+      - image.yml
 ---
 spring.config.activate.on-profile: local-container
 
 spring:
-  cloud:
-    aws:
-      credentials:
-        access-key: test
-        secret-key: test
-      s3:
-        region: us-east-1
-        bucket: ai-blog-draft
-      endpoint: localstack:4566
   servlet:
     multipart:
       max-request-size: 5GB
       max-file-size: 5GB
-
-logging:
-  config: classpath:logback/logback-local.xml
 
 ---
 spring.config.activate.on-profile: local
 
 spring:
-  cloud:
-    aws:
-      credentials:
-        access-key: test
-        secret-key: test
-      s3:
-        region: us-east-1
-        bucket: ai-blog-draft
-      endpoint: http://127.0.0.1:4566
   servlet:
     multipart:
       max-request-size: 5GB
       max-file-size: 5GB
-
-logging:
-  config: classpath:logback/logback-local.xml
 
 ---
 spring.config.activate.on-profile: live
 
 spring:
-  cloud:
-    aws:
-      credentials:
-        access-key: ${AWS_APP_ACCESS_KEY}
-        secret-key: ${AWS_APP_SECRET_KEY}
-      s3:
-        region: ap-northeast-2
-        bucket: draft-blog
   servlet:
     multipart:
       max-request-size: 5GB
       max-file-size: 5GB
-
-logging:
-  config: classpath:logback/logback-live.xml
