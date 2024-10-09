@@ -2,8 +2,8 @@ package com.kotlin.aiblogdraft.api.domain.draftTemp
 
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotAllowedException
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotFoundException
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -29,7 +29,12 @@ class DraftTempFinderTest(
             }
 
             When("해당 유저가 생성한 임시 초안이 아니라면") {
-                val temp = draftTempRepository.save(DraftTempEntity(2L))
+                val temp =
+                    draftTempRepository.save(
+                        DraftTempEntity(
+                            2L,
+                        ),
+                    )
                 then("사용할 수 없는 임시 초안 예외가 발생한다") {
                     shouldThrow<DraftTempNotAllowedException> {
                         draftTempFinder.getValid(temp.id, 1L)
@@ -38,7 +43,12 @@ class DraftTempFinderTest(
             }
 
             When("정상적인 요청이면") {
-                val temp = draftTempRepository.save(DraftTempEntity(1L))
+                val temp =
+                    draftTempRepository.save(
+                        DraftTempEntity(
+                            1L,
+                        ),
+                    )
                 then("임시 초안을 반한환다") {
                     val findTemp = draftTempFinder.getValid(temp.id, 1L)
 

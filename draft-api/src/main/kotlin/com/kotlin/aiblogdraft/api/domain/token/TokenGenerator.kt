@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.api.domain.token
 
-import com.kotlin.storage.db.entity.WebUserTokenEntity
-import com.kotlin.storage.db.repository.WebUserTokenRepository
+import com.kotlin.aiblogdraft.storage.db.entity.WebUserTokenEntity
+import com.kotlin.aiblogdraft.storage.db.repository.WebUserTokenRepository
 import org.springframework.stereotype.Component
 import java.security.SecureRandom
 import java.util.Base64

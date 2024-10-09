@@ -2,11 +2,11 @@ package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.DraftImageType
 import com.kotlin.aiblogdraft.image.S3Uploader
-import com.kotlin.storage.db.TransactionHandler
-import com.kotlin.storage.db.entity.DraftImageEntity
-import com.kotlin.storage.db.entity.DraftImageGroupEntity
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftImageRepository
+import com.kotlin.aiblogdraft.storage.db.TransactionHandler
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import java.net.URL

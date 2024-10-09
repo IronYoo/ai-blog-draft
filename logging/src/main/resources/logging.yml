@@ -1,0 +1,19 @@
+spring.application.name=logging
+
+---
+spring.config.activate.on-profile: local-container
+
+logging:
+  config: classpath:logback/logback-local.xml
+
+---
+spring.config.activate.on-profile: local
+
+logging:
+  config: classpath:logback/logback-local.xml
+
+---
+spring.config.activate.on-profile: live
+
+logging:
+  config: classpath:logback/logback-live.xml

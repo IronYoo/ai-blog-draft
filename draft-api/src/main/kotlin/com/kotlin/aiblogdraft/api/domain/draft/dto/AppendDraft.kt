@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft.dto
 
-import com.kotlin.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 
 data class AppendDraft(
     val type: DraftType,

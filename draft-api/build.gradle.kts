@@ -8,4 +8,5 @@ tasks.getByName("jar") {
 
 dependencies {
     implementation(project(":storage"))
+    implementation(project(":logging"))
 }

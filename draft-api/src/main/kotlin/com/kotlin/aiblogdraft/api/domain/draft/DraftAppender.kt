@@ -2,10 +2,10 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.exception.DraftNoImageException
-import com.kotlin.storage.db.entity.DraftEntity
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftRepository
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 

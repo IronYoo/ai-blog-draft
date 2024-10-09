@@ -2,9 +2,9 @@ package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.domain.draftImage.dto.DraftImageDeleteEvent
 import com.kotlin.aiblogdraft.image.S3Remover
-import com.kotlin.storage.db.entity.DraftImageEntity
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftImageRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async

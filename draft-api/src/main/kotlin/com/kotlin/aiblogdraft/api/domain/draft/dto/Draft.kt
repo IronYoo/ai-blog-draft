@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft.dto
 
-import com.kotlin.storage.db.repository.dto.FindWithRelationsResult
+import com.kotlin.aiblogdraft.storage.db.repository.dto.FindWithRelationsResult
 
 data class Draft(
     val id: Long,

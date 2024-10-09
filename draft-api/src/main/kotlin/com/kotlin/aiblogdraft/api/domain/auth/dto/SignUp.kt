@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.auth.dto
 
-import com.kotlin.storage.db.entity.UserEntity
+import com.kotlin.aiblogdraft.storage.db.entity.UserEntity
 
 data class SignUp(
     val email: String,

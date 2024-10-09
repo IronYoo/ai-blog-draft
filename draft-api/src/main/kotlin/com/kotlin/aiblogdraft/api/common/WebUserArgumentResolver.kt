@@ -2,7 +2,7 @@ package com.kotlin.aiblogdraft.api.common
 
 import com.kotlin.aiblogdraft.api.exception.ExpiredTokenException
 import com.kotlin.aiblogdraft.api.exception.UnAuthorizedException
-import com.kotlin.storage.db.repository.WebUserTokenRepository
+import com.kotlin.aiblogdraft.storage.db.repository.WebUserTokenRepository
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component

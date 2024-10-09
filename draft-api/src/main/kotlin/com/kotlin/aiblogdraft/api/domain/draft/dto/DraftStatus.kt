@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft.dto
 
-import com.kotlin.storage.db.enum.DraftEntityStatus
+import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityStatus
 
 enum class DraftStatus(
     val status: DraftEntityStatus,

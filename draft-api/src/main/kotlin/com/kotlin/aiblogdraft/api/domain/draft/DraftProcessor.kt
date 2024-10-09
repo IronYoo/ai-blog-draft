@@ -2,10 +2,10 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.ai.AiDraftGenerator
 import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
-import com.kotlin.storage.db.entity.DraftContentEntity
-import com.kotlin.storage.db.entity.DraftEntity
-import com.kotlin.storage.db.repository.DraftContentRepository
-import com.kotlin.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftContentEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftContentRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
 import org.springframework.stereotype.Component
 
 @Component

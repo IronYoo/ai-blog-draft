@@ -2,8 +2,8 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
 import com.kotlin.aiblogdraft.api.exception.DraftUnAuthorizedException
-import com.kotlin.storage.db.repository.DraftRepository
-import com.kotlin.storage.db.repository.dto.FindWithRelationsResult
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.dto.FindWithRelationsResult
 import org.springframework.stereotype.Component
 
 @Component

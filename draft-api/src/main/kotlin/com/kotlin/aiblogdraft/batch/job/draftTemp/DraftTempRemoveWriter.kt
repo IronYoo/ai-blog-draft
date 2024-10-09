@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.batch.job.draftTemp
 
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.batch.item.Chunk
 import org.springframework.batch.item.ItemWriter
 import org.springframework.lang.NonNull

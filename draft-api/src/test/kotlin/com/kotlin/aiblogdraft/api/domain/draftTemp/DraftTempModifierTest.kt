@@ -2,8 +2,8 @@ package com.kotlin.aiblogdraft.api.domain.draftTemp
 
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotAllowedException
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotFoundException
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -33,7 +33,12 @@ class DraftTempModifierTest
                 }
 
                 When("유저의 임시 초안이 아니면") {
-                    val draftTemp = draftTempRepository.save(DraftTempEntity(2L)) // 다른 유저의 초안
+                    val draftTemp =
+                        draftTempRepository.save(
+                            DraftTempEntity(
+                                2L,
+                            ),
+                        ) // 다른 유저의 초안
                     then("임시 초안 접급 불가 예외가 발생한다") {
                         shouldThrow<DraftTempNotAllowedException> {
                             draftTempModifier.postponeRemove(1L, draftTemp.id) // 다른 유저의 초안 ID 사용
@@ -42,7 +47,12 @@ class DraftTempModifierTest
                 }
 
                 When("정상적인 요청이면") {
-                    val draftTemp = draftTempRepository.save(DraftTempEntity(1L))
+                    val draftTemp =
+                        draftTempRepository.save(
+                            DraftTempEntity(
+                                1L,
+                            ),
+                        )
                     val expectExpireAt =
                         LocalDateTime
                             .now()

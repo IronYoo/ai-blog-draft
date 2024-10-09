@@ -1,13 +1,13 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
-import com.kotlin.storage.db.entity.DraftEntity
-import com.kotlin.storage.db.entity.DraftImageEntity
-import com.kotlin.storage.db.entity.DraftImageGroupEntity
-import com.kotlin.storage.db.enum.DraftEntityType
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftImageRepository
-import com.kotlin.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
+import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -35,7 +35,7 @@ class DraftFinderTest(
                 }
             }
 
-            val draft = draftRepository.save(DraftEntity(DraftEntityType.RESTAURANT, "title1", 1L))
+            val draft = draftRepository.save(DraftEntity(com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType.RESTAURANT, "title1", 1L))
             val draftImageGroup = DraftImageGroupEntity(1L)
             draftImageGroup.updateDraftId(draft.id)
             val imageGroup = draftImageGroupRepository.save(draftImageGroup)
@@ -43,7 +43,7 @@ class DraftFinderTest(
             When("존재하는 초안이면") {
                 val result = draftFinder.findDetail(draft.id, 1L)
                 then("이미지와 함께 초안 데이터를 반환한다") {
-                    result.draft.type shouldBe DraftEntityType.RESTAURANT
+                    result.draft.type shouldBe com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType.RESTAURANT
                     result.draft.title shouldBe "title1"
                     result.groups.size shouldBe 1
                     result.groups[0].images.size shouldBe 1

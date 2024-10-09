@@ -5,7 +5,7 @@ import com.kotlin.aiblogdraft.api.domain.auth.UserAppender
 import com.kotlin.aiblogdraft.api.domain.auth.dto.Login
 import com.kotlin.aiblogdraft.api.domain.auth.dto.SignUp
 import com.kotlin.aiblogdraft.api.domain.token.TokenGenerator
-import com.kotlin.storage.db.entity.WebUserTokenEntity
+import com.kotlin.aiblogdraft.storage.db.entity.WebUserTokenEntity
 import org.springframework.stereotype.Service
 
 @Service

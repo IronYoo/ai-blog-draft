@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.batch.job.draftTemp
 
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
@@ -38,8 +38,10 @@ class ImageExpiredJobConfig(
     @JobScope
     fun imageExpiredStep(): Step =
         StepBuilder(jobName + "_step", jobRepository)
-            .chunk<DraftTempEntity, DraftTempEntity>(chunkSize, transactionManager)
-            .reader(expiredDraftTempItemReader)
+            .chunk<DraftTempEntity, DraftTempEntity>(
+                chunkSize,
+                transactionManager,
+            ).reader(expiredDraftTempItemReader)
             .writer(draftTempRemoveWriter())
             .build()
 

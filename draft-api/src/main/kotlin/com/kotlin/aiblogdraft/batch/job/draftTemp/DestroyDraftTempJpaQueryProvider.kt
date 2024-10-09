@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.batch.job.draftTemp
 
-import com.kotlin.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
 import jakarta.persistence.Query
 import jakarta.persistence.TypedQuery
 import org.springframework.batch.item.database.orm.AbstractJpaQueryProvider

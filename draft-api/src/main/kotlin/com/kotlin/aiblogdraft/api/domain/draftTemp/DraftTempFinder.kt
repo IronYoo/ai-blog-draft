@@ -2,8 +2,8 @@ package com.kotlin.aiblogdraft.api.domain.draftTemp
 
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotAllowedException
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotFoundException
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 

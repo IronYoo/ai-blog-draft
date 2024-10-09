@@ -1,12 +1,12 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.exception.DraftImageNotAllowedException
-import com.kotlin.storage.db.entity.DraftImageEntity
-import com.kotlin.storage.db.entity.DraftImageGroupEntity
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftImageRepository
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -30,7 +30,12 @@ class DraftImageRemoverTest(
             var group: DraftImageGroupEntity
             var deleteImage: DraftImageEntity
 
-            temp = draftTempRepository.save(DraftTempEntity(1L))
+            temp =
+                draftTempRepository.save(
+                    DraftTempEntity(
+                        1L,
+                    ),
+                )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
             deleteImage = draftImageRepository.save(DraftImageEntity("test-url", group.id))
             When("유저 정보가 다르면") {
@@ -41,7 +46,12 @@ class DraftImageRemoverTest(
                 }
             }
 
-            temp = draftTempRepository.save(DraftTempEntity(1L))
+            temp =
+                draftTempRepository.save(
+                    DraftTempEntity(
+                        1L,
+                    ),
+                )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
             draftImageRepository.save(DraftImageEntity("test-url", group.id))
             deleteImage = draftImageRepository.save(DraftImageEntity("test-url2", group.id))
@@ -56,7 +66,12 @@ class DraftImageRemoverTest(
                 }
             }
 
-            temp = draftTempRepository.save(DraftTempEntity(1L))
+            temp =
+                draftTempRepository.save(
+                    DraftTempEntity(
+                        1L,
+                    ),
+                )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
             deleteImage = draftImageRepository.save(DraftImageEntity("test-url", group.id))
             When("해당 그룹에 삭제 대상만 있다면") {

@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftTemp.dto
 
-import com.kotlin.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
 
 data class AppendDraftTemp(
     val userId: Long,

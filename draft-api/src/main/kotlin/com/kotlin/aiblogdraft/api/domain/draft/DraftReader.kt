@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draft
 
-import com.kotlin.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
 import org.springframework.stereotype.Component
 
 @Component

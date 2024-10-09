@@ -2,11 +2,11 @@ package com.kotlin.aiblogdraft.api.domain.draft
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftType
-import com.kotlin.storage.db.entity.DraftImageGroupEntity
-import com.kotlin.storage.db.entity.DraftTempEntity
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftRepository
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
@@ -25,7 +25,12 @@ class DraftAppenderTest(
         }
 
         given("초안 추가 시") {
-            val temp = draftTempRepository.save(DraftTempEntity(1L))
+            val temp =
+                draftTempRepository.save(
+                    DraftTempEntity(
+                        1L,
+                    ),
+                )
             val appendDraft =
                 AppendDraft(
                     type = DraftType.RESTAURANT,

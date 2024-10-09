@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage.dto
 
-import com.kotlin.storage.db.entity.DraftImageEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 
 data class AppendImageResult(
     val id: Long,

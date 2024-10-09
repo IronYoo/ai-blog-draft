@@ -2,8 +2,8 @@ package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.exception.DraftImageModificationDeniedException
 import com.kotlin.aiblogdraft.api.exception.DraftImageNotAllowedException
-import com.kotlin.storage.db.repository.DraftRepository
-import com.kotlin.storage.db.repository.DraftTempRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.stereotype.Component
 
 @Component

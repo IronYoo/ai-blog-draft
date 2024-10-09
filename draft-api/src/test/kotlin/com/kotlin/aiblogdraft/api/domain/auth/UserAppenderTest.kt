@@ -1,8 +1,8 @@
 package com.kotlin.aiblogdraft.api.domain.auth
 
 import com.kotlin.aiblogdraft.api.exception.EmailDuplicationException
-import com.kotlin.storage.db.entity.UserEntity
-import com.kotlin.storage.db.repository.UserRepository
+import com.kotlin.aiblogdraft.storage.db.entity.UserEntity
+import com.kotlin.aiblogdraft.storage.db.repository.UserRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe

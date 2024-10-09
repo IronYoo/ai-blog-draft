@@ -1,9 +1,9 @@
 package com.kotlin.aiblogdraft.api.domain.ai
 
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftType
-import com.kotlin.storage.db.entity.DraftEntity
-import com.kotlin.storage.db.repository.AiPromptRepository
-import com.kotlin.storage.db.repository.dto.DraftImageGroup
+import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.repository.AiPromptRepository
+import com.kotlin.aiblogdraft.storage.db.repository.dto.DraftImageGroup
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.messages.UserMessage
 import org.springframework.ai.chat.prompt.Prompt

@@ -1,9 +1,9 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.image.S3UploaderStub
-import com.kotlin.storage.db.TransactionHandler
-import com.kotlin.storage.db.repository.DraftImageGroupRepository
-import com.kotlin.storage.db.repository.DraftImageRepository
+import com.kotlin.aiblogdraft.storage.db.TransactionHandler
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
+import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
