@@ -25,10 +25,10 @@ class ImageExpiredJobConfig(
     @Qualifier("expiredDraftTempJpaItemReader") private val expiredDraftTempItemReader: JpaPagingItemReader<DraftTempEntity>,
     private val draftTempRepository: DraftTempRepository,
 ) {
-    val jobName = "imageExpireJob"
+    val jobName = "imageExpiredJob"
     val chunkSize = 500
 
-    @Bean
+    @Bean("imageExpiredJob")
     fun imageExpiredJob(): Job =
         JobBuilder(jobName, jobRepository)
             .start(imageExpiredStep())

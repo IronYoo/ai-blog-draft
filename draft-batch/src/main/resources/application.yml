@@ -1,0 +1,39 @@
+spring.application.name: draft-batch
+spring:
+  config:
+    import:
+      - storage.yml
+      - logging.yml
+      - cloud.yml
+      - image.yml
+  batch:
+    job:
+      name: ${job.name:NONE}
+      enabled: true
+
+---
+spring.config.activate.on-profile: local-container
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB
+
+---
+spring.config.activate.on-profile: local
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB
+
+---
+spring.config.activate.on-profile: live
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB
