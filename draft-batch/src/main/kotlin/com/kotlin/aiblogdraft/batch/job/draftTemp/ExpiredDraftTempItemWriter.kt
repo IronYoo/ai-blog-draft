@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-class DraftTempRemoveWriter(
+class ExpiredDraftTempItemWriter(
     private val draftTempRepository: DraftTempRepository,
 ) : ItemWriter<DraftTempEntity> {
     override fun write(

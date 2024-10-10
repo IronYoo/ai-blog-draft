@@ -14,13 +14,14 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(BatchProperties::class)
 class BatchConfig {
-
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "spring.batch.job", name = ["enabled"], havingValue = "true", matchIfMissing = true)
     fun jobLauncherApplicationRunner(
-        jobLauncher: JobLauncher, jobExplorer: JobExplorer,
-        jobRepository: JobRepository, properties: BatchProperties
+        jobLauncher: JobLauncher,
+        jobExplorer: JobExplorer,
+        jobRepository: JobRepository,
+        properties: BatchProperties,
     ): JobLauncherApplicationRunner {
         val runner = JobLauncherApplicationRunner(jobLauncher, jobExplorer, jobRepository)
         val jobName: String? = properties.job.name

@@ -6,7 +6,7 @@ import jakarta.persistence.TypedQuery
 import org.springframework.batch.item.database.orm.AbstractJpaQueryProvider
 import java.time.LocalDateTime
 
-class DestroyDraftTempJpaQueryProvider(
+class ExpiredDraftTempJpaQueryProvider(
     private val targetDateTime: LocalDateTime,
 ) : AbstractJpaQueryProvider() {
     override fun createQuery(): Query {
