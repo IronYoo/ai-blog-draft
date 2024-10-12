@@ -1,9 +1,9 @@
-package com.kotlin.aiblogdraft.api.domain.ai
+package com.kotlin.aiblogdraft.batch.domain.ai
 
-import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftType
+import com.kotlin.aiblogdraft.batch.domain.draft.dto.DraftType
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import com.kotlin.aiblogdraft.storage.db.repository.AiPromptRepository
-import com.kotlin.aiblogdraft.storage.db.repository.dto.DraftImageGroup
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.messages.UserMessage
 import org.springframework.ai.chat.prompt.Prompt
@@ -20,10 +20,10 @@ class AiDraftGenerator(
 ) {
     fun generate(
         draft: DraftEntity,
-        imageGroup: DraftImageGroup,
+        images: List<DraftImageEntity>,
     ): String {
         val prompt = getPrompt(draft)
-        val userMessage = UserMessage(prompt, imageGroup.images.map { Media(it.imgType, URI(it.url).toURL()) })
+        val userMessage = UserMessage(prompt, images.map { Media(it.imgType, URI(it.url).toURL()) })
         val response =
             chatClient
                 .prompt(Prompt(userMessage, OpenAiChatOptions.builder().withModel(OpenAiApi.ChatModel.GPT_4_O).build()))

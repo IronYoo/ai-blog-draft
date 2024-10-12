@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface DraftImageRepository : JpaRepository<DraftImageEntity, Long> {
     fun countByDraftImageGroupId(draftImageGroupId: Long): Int
+
+    fun findAllByDraftImageGroupId(draftImageGroupId: Long): List<DraftImageEntity>
 }

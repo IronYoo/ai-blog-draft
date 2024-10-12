@@ -2,7 +2,6 @@ package com.kotlin.aiblogdraft.api.domain
 
 import com.kotlin.aiblogdraft.api.domain.draft.DraftAppender
 import com.kotlin.aiblogdraft.api.domain.draft.DraftFinder
-import com.kotlin.aiblogdraft.api.domain.draft.DraftProcessor
 import com.kotlin.aiblogdraft.api.domain.draft.DraftReader
 import com.kotlin.aiblogdraft.api.domain.draft.dto.AppendDraft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
@@ -14,8 +13,6 @@ import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
 import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
 import com.kotlin.aiblogdraft.api.exception.DraftNotProcessedException
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.context.event.EventListener
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,7 +22,6 @@ class DraftService(
     private val draftAppender: DraftAppender,
     private val draftReader: DraftReader,
     private val draftFinder: DraftFinder,
-    private val draftProcessor: DraftProcessor,
     private val applicationEventPublisher: ApplicationEventPublisher,
 ) {
     fun start(userId: Long): Long {
@@ -42,12 +38,6 @@ class DraftService(
         draftTempFinder.getValid(tempId, userId)
         val draftId = draftAppender.append(tempId, userId, appendDraft).id
         applicationEventPublisher.publishEvent(DraftAppendEvent(draftId))
-    }
-
-    @Async
-    @EventListener
-    fun process(event: DraftAppendEvent) {
-        draftProcessor.process(event.draftId)
     }
 
     fun status(userId: Long): List<DraftStatusResult> {

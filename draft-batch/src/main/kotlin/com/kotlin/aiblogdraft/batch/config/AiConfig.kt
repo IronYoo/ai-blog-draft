@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.config
+package com.kotlin.aiblogdraft.batch.config
 
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.context.annotation.Bean

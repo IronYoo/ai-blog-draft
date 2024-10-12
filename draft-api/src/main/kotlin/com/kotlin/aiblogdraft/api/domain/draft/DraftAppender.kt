@@ -26,7 +26,7 @@ class DraftAppender(
 
         draftTempRepository.deleteById(tempId)
         val draft = draftRepository.save(appendDraft.toDraftEntity(userId))
-        imageGroups.forEach { it.updateDraftId(draft.id) }
+        imageGroups.forEach { it.updateDraft(draft.id) }
 
         return draft
     }

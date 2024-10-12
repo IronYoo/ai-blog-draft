@@ -58,7 +58,7 @@ class ExpiredDraftTempJobConfig(
         val targetDateTime = parsedDateTime.plusDays(1).atStartOfDay() // 여기서 날짜 계산
         val queryProvider = ExpiredDraftTempJpaQueryProvider(targetDateTime)
         return JpaPagingItemReaderBuilder<DraftTempEntity>()
-            .name("expiredDraftTempJpaItemReader")
+            .name("expiredDraftTempItemReader")
             .entityManagerFactory(entityManager.entityManagerFactory)
             .pageSize(this.chunkSize)
             .queryProvider(queryProvider)

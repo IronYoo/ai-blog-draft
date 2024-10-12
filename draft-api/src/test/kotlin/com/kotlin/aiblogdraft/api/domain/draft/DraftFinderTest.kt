@@ -4,7 +4,6 @@ import com.kotlin.aiblogdraft.api.exception.DraftNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftEntity
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
-import com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftRepository
@@ -37,7 +36,7 @@ class DraftFinderTest(
 
             val draft = draftRepository.save(DraftEntity(com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType.RESTAURANT, "title1", 1L))
             val draftImageGroup = DraftImageGroupEntity(1L)
-            draftImageGroup.updateDraftId(draft.id)
+            draftImageGroup.updateDraft(draft.id)
             val imageGroup = draftImageGroupRepository.save(draftImageGroup)
             draftImageRepository.save(DraftImageEntity("test-url", imageGroup.id))
             When("존재하는 초안이면") {

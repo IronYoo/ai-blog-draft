@@ -15,4 +15,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-batch")
     testImplementation("org.springframework.batch:spring-batch-test")
+
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
 }

@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.storage.db.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import org.springframework.util.MimeType
@@ -15,6 +16,7 @@ class DraftImageEntity(
     var url: String = url
         protected set
 
+    @Column(name = "draft_image_group_id")
     var draftImageGroupId: Long = draftImageGroupId
         protected set
 
