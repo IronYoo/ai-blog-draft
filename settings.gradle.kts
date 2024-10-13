@@ -6,5 +6,6 @@ include(
     "logging",
     "cloud",
     "cloud:image",
-    "draft-batch"
+    "draft-batch",
+    "cloud:sqs",
 )
