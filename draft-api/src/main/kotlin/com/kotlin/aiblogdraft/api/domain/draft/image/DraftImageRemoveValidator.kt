@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftImage
+package com.kotlin.aiblogdraft.api.domain.draft.image
 
 import com.kotlin.aiblogdraft.api.exception.DraftImageModificationDeniedException
 import com.kotlin.aiblogdraft.api.exception.DraftImageNotAllowedException

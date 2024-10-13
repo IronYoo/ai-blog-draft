@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftTemp
 
+import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempFinder
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotAllowedException
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotFoundException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity

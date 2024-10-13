@@ -7,8 +7,9 @@ import com.kotlin.aiblogdraft.api.controller.v1.response.StartDraftResponse
 import com.kotlin.aiblogdraft.api.domain.DraftImageService
 import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.api.domain.DraftTempService
-import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
+import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempFinder
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
+@Tag(name = "DraftTempController", description = "임시 초안 컨트롤러")
 @RequestMapping("/v1/drafts")
 class DraftTempController(
     private val draftService: DraftService,

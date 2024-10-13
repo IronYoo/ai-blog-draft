@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftTemp.dto
+package com.kotlin.aiblogdraft.api.domain.draft.temp.dto
 
 import com.kotlin.aiblogdraft.storage.db.entity.DraftTempEntity
 

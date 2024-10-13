@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.controller.v1.response
 
-import com.kotlin.aiblogdraft.api.domain.draftImage.dto.AppendImageResult
+import com.kotlin.aiblogdraft.api.domain.draft.image.dto.AppendImageResult
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "가초안 이미지 등록 응답")

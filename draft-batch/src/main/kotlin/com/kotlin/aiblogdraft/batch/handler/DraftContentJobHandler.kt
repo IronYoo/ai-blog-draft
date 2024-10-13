@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.batch.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.kotlin.sqs.message.DraftContentJobMessage
+import com.kotlin.aiblogdraft.cloud.sqs.message.DraftContentJobMessage
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParametersBuilder

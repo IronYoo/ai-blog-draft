@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftImage.dto
+package com.kotlin.aiblogdraft.api.domain.draft.image.dto
 
 import com.kotlin.aiblogdraft.api.exception.DraftImageNotAllowedExtension
 import org.springframework.util.MimeType

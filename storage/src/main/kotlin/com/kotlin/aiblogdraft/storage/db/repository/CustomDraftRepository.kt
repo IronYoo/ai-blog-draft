@@ -15,7 +15,7 @@ interface CustomDraftRepository {
 
 class CustomDraftRepositoryImpl :
     QuerydslRepositorySupport(DraftEntity::class.java),
-    com.kotlin.aiblogdraft.storage.db.repository.CustomDraftRepository {
+    CustomDraftRepository {
     override fun findWithRelations(id: Long): FindWithRelationsResult? {
         val result =
             from(draftEntity)

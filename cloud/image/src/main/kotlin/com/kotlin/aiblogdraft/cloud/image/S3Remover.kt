@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.image
+package com.kotlin.aiblogdraft.cloud.image
 
 import io.awspring.cloud.s3.S3Template
 import org.springframework.beans.factory.annotation.Value

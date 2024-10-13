@@ -1,5 +1,6 @@
 package com.kotlin.aiblogdraft.api.domain.draftImage
 
+import com.kotlin.aiblogdraft.api.domain.draft.image.DraftImageRemover
 import com.kotlin.aiblogdraft.api.exception.DraftImageNotAllowedException
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity

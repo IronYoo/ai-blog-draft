@@ -1,6 +1,7 @@
 package com.kotlin.aiblogdraft.api.domain.draftTemp
 
-import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
+import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempAppender
+import com.kotlin.aiblogdraft.api.domain.draft.temp.dto.AppendDraftTemp
 import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldNotBe

@@ -1,6 +1,6 @@
 package com.kotlin.aiblogdraft.api.image
 
-import com.kotlin.aiblogdraft.image.S3Uploader
+import com.kotlin.aiblogdraft.cloud.image.S3Uploader
 import io.mockk.mockk
 import org.springframework.web.multipart.MultipartFile
 

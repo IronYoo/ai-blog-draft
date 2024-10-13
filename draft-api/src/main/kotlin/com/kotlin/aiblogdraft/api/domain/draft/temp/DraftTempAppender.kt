@@ -1,6 +1,6 @@
-package com.kotlin.aiblogdraft.api.domain.draftTemp
+package com.kotlin.aiblogdraft.api.domain.draft.temp
 
-import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
+import com.kotlin.aiblogdraft.api.domain.draft.temp.dto.AppendDraftTemp
 import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Component

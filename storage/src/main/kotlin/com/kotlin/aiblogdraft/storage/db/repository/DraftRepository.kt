@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param
 
 interface DraftRepository :
     JpaRepository<DraftEntity, Long>,
-    com.kotlin.aiblogdraft.storage.db.repository.CustomDraftRepository {
+    CustomDraftRepository {
     fun findByUserIdOrderByCreatedAtDesc(userId: Long): List<DraftEntity>
 
     @Query(

@@ -7,6 +7,7 @@ import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Tag(name = "DraftController", description = "초안 컨트롤러")
 @RestController
 @RequestMapping("/v1/drafts")
 class DraftController(

@@ -8,9 +8,9 @@ import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftAppendEvent
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatus
 import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
-import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempAppender
-import com.kotlin.aiblogdraft.api.domain.draftTemp.DraftTempFinder
-import com.kotlin.aiblogdraft.api.domain.draftTemp.dto.AppendDraftTemp
+import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempAppender
+import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempFinder
+import com.kotlin.aiblogdraft.api.domain.draft.temp.dto.AppendDraftTemp
 import com.kotlin.aiblogdraft.api.exception.DraftNotProcessedException
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service

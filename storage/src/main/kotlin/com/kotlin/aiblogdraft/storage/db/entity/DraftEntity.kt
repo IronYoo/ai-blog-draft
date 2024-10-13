@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "draft")
 class DraftEntity(
-    type: com.kotlin.aiblogdraft.storage.db.enum.DraftEntityType,
+    type: DraftEntityType,
     title: String,
     userId: Long,
     regulationText: String? = null,

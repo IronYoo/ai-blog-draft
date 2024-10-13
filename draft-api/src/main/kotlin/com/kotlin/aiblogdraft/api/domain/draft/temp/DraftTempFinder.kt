@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftTemp
+package com.kotlin.aiblogdraft.api.domain.draft.temp
 
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotAllowedException
 import com.kotlin.aiblogdraft.api.exception.DraftTempNotFoundException

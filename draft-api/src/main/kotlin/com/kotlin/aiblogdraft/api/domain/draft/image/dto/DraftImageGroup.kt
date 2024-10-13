@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftImage.dto
+package com.kotlin.aiblogdraft.api.domain.draft.image.dto
 
 class DraftImageGroup(
     val groupId: Long,

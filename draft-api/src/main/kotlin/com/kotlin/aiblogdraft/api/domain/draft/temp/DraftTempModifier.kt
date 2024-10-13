@@ -1,4 +1,4 @@
-package com.kotlin.aiblogdraft.api.domain.draftTemp
+package com.kotlin.aiblogdraft.api.domain.draft.temp
 
 import com.kotlin.aiblogdraft.storage.db.repository.DraftTempRepository
 import org.springframework.stereotype.Component
