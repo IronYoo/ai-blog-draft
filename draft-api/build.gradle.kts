@@ -9,10 +9,9 @@ tasks.getByName("jar") {
 dependencies {
     implementation(project(":storage"))
     implementation(project(":logging"))
-    implementation(project(":cloud"))
     implementation(project(":cloud:image"))
+    implementation(project(":cloud:sqs"))
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 

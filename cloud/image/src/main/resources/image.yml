@@ -1,4 +1,7 @@
-spring.application.name=image
+spring:
+  config:
+    import:
+      - cloud.yml
 
 ---
 spring.config.activate.on-profile: local-container
@@ -9,7 +12,6 @@ spring:
       s3:
         region: us-east-1
         bucket: ai-blog-draft
-      endpoint: localstack:4566
 
 ---
 spring.config.activate.on-profile: local
@@ -20,7 +22,6 @@ spring:
       s3:
         region: us-east-1
         bucket: ai-blog-draft
-      endpoint: http://127.0.0.1:4566
 
 ---
 spring.config.activate.on-profile: live
