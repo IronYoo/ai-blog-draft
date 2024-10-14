@@ -6,6 +6,7 @@ spring:
       - logging.yml
       - cloud.yml
       - image.yml
+      - sqs.yml
 ---
 spring.config.activate.on-profile: local-container
 
