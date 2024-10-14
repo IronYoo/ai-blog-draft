@@ -1,9 +1,8 @@
 package com.kotlin.aiblogdraft.cloud.sqs.message
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.annotation.JsonProperty
 
-abstract class SqsMessage {
-    private val objectMapper: ObjectMapper = ObjectMapper()
-
-    fun serialize() = objectMapper.writeValueAsString(this)
-}
+data class SqsMessage(
+    @JsonProperty("Records")
+    val records: List<SqsRecord>,
+)

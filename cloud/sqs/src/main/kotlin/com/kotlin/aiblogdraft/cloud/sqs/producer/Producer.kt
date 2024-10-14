@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.cloud.sqs.producer
 
 import com.kotlin.aiblogdraft.cloud.sqs.QueueName
-import com.kotlin.aiblogdraft.cloud.sqs.message.SqsMessage
+import com.kotlin.aiblogdraft.cloud.sqs.message.BaseMessage
 import io.awspring.cloud.sqs.operations.SqsTemplate
 import org.springframework.stereotype.Component
 
@@ -11,7 +11,7 @@ class Producer(
 ) {
     fun send(
         queueName: QueueName,
-        message: SqsMessage,
+        message: BaseMessage,
     ) {
         sqsTemplate.send { sendOpsTo ->
             sendOpsTo
