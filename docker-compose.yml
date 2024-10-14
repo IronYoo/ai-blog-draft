@@ -25,7 +25,7 @@ services:
       - 4572:4572
       - 4566:4566
     environment:
-      - SERVICES=s3
+      - SERVICES=s3, sqs
     volumes:
       - "./localstack-init/init.sh:/etc/localstack/init/ready.d/init-aws.sh"
     networks:
