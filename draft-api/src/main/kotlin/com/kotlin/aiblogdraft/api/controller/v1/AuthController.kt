@@ -7,6 +7,7 @@ import com.kotlin.aiblogdraft.api.controller.v1.request.SignupRequest
 import com.kotlin.aiblogdraft.api.domain.AuthService
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +22,7 @@ class AuthController(
 ) {
     @PostMapping("/signup")
     fun signup(
-        @RequestBody signupRequest: SignupRequest,
+        @Valid @RequestBody signupRequest: SignupRequest,
     ): ApiResponse<Nothing> {
         authService.signup(signupRequest.toSignUp())
         return ApiResponse.success()
@@ -29,7 +30,7 @@ class AuthController(
 
     @PostMapping("/login")
     fun login(
-        @RequestBody loginRequest: LoginRequest,
+        @Valid @RequestBody loginRequest: LoginRequest,
         response: HttpServletResponse,
     ): ApiResponse<Nothing> {
         val token = authService.login(loginRequest.toLogin()).token

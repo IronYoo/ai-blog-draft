@@ -1,14 +1,18 @@
 package com.kotlin.aiblogdraft.api.config
 
-import com.kotlin.aiblogdraft.api.exception.ApiException
 import com.kotlin.aiblogdraft.api.exception.ExceptionType
 
 data class ApiResponse<T>(
     val result: ResultType,
     val data: T? = null,
     val message: String?,
-    val error: ApiException? = null,
+    val error: ErrorDetail? = null,
 ) {
+    data class ErrorDetail(
+        val type: ExceptionType,
+        val data: Any? = null,
+    )
+
     companion object {
         fun success() =
             ApiResponse(
@@ -21,9 +25,9 @@ data class ApiResponse<T>(
         fun <S> success(data: S) = ApiResponse(ResultType.SUCCESS, data, null)
 
         fun <S> error(
-            error: ExceptionType,
+            type: ExceptionType,
             data: Any? = null,
             message: String? = null,
-        ): ApiResponse<S> = ApiResponse(ResultType.ERROR, null, message ?: error.message, ApiException(error, data))
+        ): ApiResponse<S> = ApiResponse(ResultType.ERROR, null, message ?: type.message, ErrorDetail(type, data))
     }
 }

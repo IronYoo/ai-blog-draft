@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
 class ApiControllerAdvice {
@@ -17,16 +18,22 @@ class ApiControllerAdvice {
     @ExceptionHandler(ApiException::class)
     fun handleCoreApiException(e: ApiException): ResponseEntity<ApiResponse<Nothing>> {
         when (e.type.logLevel) {
-            LogLevel.ERROR -> log.error { "[${e.message}] $e" }
-            LogLevel.WARN -> log.warn { "[${e.message}] $e" }
-            else -> log.info { "[${e.message}] $e" }
+            LogLevel.ERROR -> log.error { "[${e.message}] ${e.stackTraceToString()}" }
+            LogLevel.WARN -> log.warn { "[${e.message}] ${e.stackTraceToString()}" }
+            else -> log.info { "[${e.message}] ${e.stackTraceToString()}" }
         }
         return ResponseEntity(ApiResponse.error(e.type, e.data), e.type.status)
     }
 
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun notFoundException(e: NoResourceFoundException): ResponseEntity<ApiResponse<Any>> {
+        log.info { "[${e.message}] $e, ${e.stackTraceToString()}" }
+        return ResponseEntity(ApiResponse.error(ExceptionType.NOT_FOUND), ExceptionType.NOT_FOUND.status)
+    }
+
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ResponseEntity<ApiResponse<Any>> {
-        log.error { "[${e.message}] $e" }
+        log.error { "[${e.message}] $e, ${e.stackTraceToString()}" }
         return ResponseEntity(ApiResponse.error(ExceptionType.DEFAULT_ERROR), ExceptionType.DEFAULT_ERROR.status)
     }
 
@@ -39,7 +46,7 @@ class ApiControllerAdvice {
         log.warn { "Validation failed: $errors" }
         return ResponseEntity(
             ApiResponse.error(
-                error = ExceptionType.VALIDATION_ERROR,
+                type = ExceptionType.VALIDATION_ERROR,
                 message = errors.joinToString(),
             ),
             ExceptionType.VALIDATION_ERROR.status,

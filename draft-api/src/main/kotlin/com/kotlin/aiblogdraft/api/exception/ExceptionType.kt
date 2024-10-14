@@ -8,6 +8,9 @@ enum class ExceptionType(
     val message: String,
     val logLevel: LogLevel,
 ) {
+    // 기본
+    NOT_FOUND(HttpStatus.NOT_FOUND, "not found", LogLevel.INFO),
+
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error occurred", LogLevel.ERROR),
 
     // Draft Exception
