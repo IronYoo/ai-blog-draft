@@ -6,11 +6,13 @@ import io.awspring.cloud.sqs.operations.SqsTemplate
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.auth.credentials.AwsCredentials
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 
 @Configuration
+@Profile("!test")
 class SqsConfig {
     @Value("\${spring.cloud.aws.credentials.access-key}")
     val accessKey: String? = null
