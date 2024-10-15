@@ -10,6 +10,7 @@ import com.kotlin.aiblogdraft.api.domain.DraftTempService
 import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempFinder
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -37,7 +38,7 @@ class DraftTempController(
         return ApiResponse.success(StartDraftResponse(tempId))
     }
 
-    @PostMapping("/images")
+    @PostMapping("/images", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun postImages(
         @RequestPart(value = "tempId") tempId: String,
         @RequestPart(value = "file") files: Array<MultipartFile>,
