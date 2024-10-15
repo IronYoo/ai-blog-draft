@@ -1,0 +1,46 @@
+---
+spring.config.activate.on-profile: local-container
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+      endpoint: localstack:4566
+      s3:
+        region: us-east-1
+        bucket: ai-blog-draft
+      sqs:
+        region: us-east-1
+
+---
+spring.config.activate.on-profile: local
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+      endpoint: http://127.0.0.1:4566
+      s3:
+        region: us-east-1
+        bucket: ai-blog-draft
+      sqs:
+        region: us-east-1
+
+---
+spring.config.activate.on-profile: live
+
+spring:
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_APP_ACCESS_KEY}
+        secret-key: ${AWS_APP_SECRET_KEY}
+      s3:
+        region: ap-northeast-2
+        bucket: draft-blog
+      sqs:
+        region: ap-northeast-2

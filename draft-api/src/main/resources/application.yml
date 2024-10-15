@@ -4,9 +4,7 @@ spring:
     import:
       - storage.yml
       - logging.yml
-      - cloud.yml
-      - image.yml
-      - sqs.yml
+      - external.yml
 ---
 spring.config.activate.on-profile: local-container
 

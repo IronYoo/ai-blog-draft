@@ -11,9 +11,9 @@ import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempAppender
 import com.kotlin.aiblogdraft.api.domain.draft.temp.DraftTempFinder
 import com.kotlin.aiblogdraft.api.domain.draft.temp.dto.AppendDraftTemp
 import com.kotlin.aiblogdraft.api.exception.DraftNotProcessedException
-import com.kotlin.aiblogdraft.cloud.sqs.QueueName
-import com.kotlin.aiblogdraft.cloud.sqs.message.DraftContentJobMessage
-import com.kotlin.aiblogdraft.cloud.sqs.producer.Producer
+import com.kotlin.aiblogdraft.external.sqs.QueueName
+import com.kotlin.aiblogdraft.external.sqs.message.DraftContentJobMessage
+import com.kotlin.aiblogdraft.external.sqs.producer.Producer
 import org.springframework.stereotype.Service
 
 @Service

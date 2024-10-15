@@ -2,10 +2,9 @@ rootProject.name = "ai-blog-draft"
 
 include(
     "draft-api",
+    "draft-batch",
     "storage",
     "logging",
-    "cloud",
-    "cloud:image",
-    "draft-batch",
-    "cloud:sqs",
+    "external",
+    "external:sqs",
 )

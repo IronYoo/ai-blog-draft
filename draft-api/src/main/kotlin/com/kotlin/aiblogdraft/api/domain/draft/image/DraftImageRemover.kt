@@ -1,7 +1,7 @@
 package com.kotlin.aiblogdraft.api.domain.draft.image
 
 import com.kotlin.aiblogdraft.api.domain.draft.image.dto.DraftImageDeleteEvent
-import com.kotlin.aiblogdraft.cloud.image.S3Remover
+import com.kotlin.aiblogdraft.external.s3.S3Remover
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository

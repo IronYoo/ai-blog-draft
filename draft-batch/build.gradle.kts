@@ -13,8 +13,7 @@ tasks.getByName("jar") {
 dependencies {
     implementation(project(":storage"))
     implementation(project(":logging"))
-    implementation(project(":cloud:image"))
-    implementation(project(":cloud:sqs"))
+    implementation(project(":external"))
 
     implementation("org.springframework.cloud:spring-cloud-function-kotlin:3.2.8")
     implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:3.2.8")
