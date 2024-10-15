@@ -63,7 +63,8 @@ class DraftTempController(
     fun extend(
         @Parameter(hidden = true) webUser: WebUser,
         @PathVariable(value = "id") id: Long,
-    ) {
+    ): ApiResponse<Nothing> {
         draftTempService.extend(id, webUser.userId)
+        return ApiResponse.success()
     }
 }

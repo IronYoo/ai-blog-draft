@@ -8,7 +8,7 @@ data class Draft(
     val title: String,
     val regulationText: String?,
     val status: DraftStatus,
-    val groups: List<DraftImageGroup>,
+    val imageGroups: List<DraftImageGroup>,
 ) {
     companion object {
         fun fromDetail(dto: FindWithRelationsResult) =
@@ -18,7 +18,7 @@ data class Draft(
                 title = dto.draft.title,
                 regulationText = dto.draft.regulationText,
                 status = DraftStatus.findByStatus(dto.draft.status),
-                groups =
+                imageGroups =
                     dto.groups.map { group ->
                         val images = group.images.map { DraftImage(it.id, it.url) }
                         DraftImageGroup(group.id, images, group.content!!)

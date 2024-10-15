@@ -3,9 +3,9 @@ package com.kotlin.aiblogdraft.api.controller.v1
 import com.kotlin.aiblogdraft.api.common.WebUser
 import com.kotlin.aiblogdraft.api.config.ApiResponse
 import com.kotlin.aiblogdraft.api.controller.v1.request.CreatePendingDraftRequest
+import com.kotlin.aiblogdraft.api.controller.v1.response.DraftResponse
 import com.kotlin.aiblogdraft.api.domain.DraftService
 import com.kotlin.aiblogdraft.api.domain.draft.dto.Draft
-import com.kotlin.aiblogdraft.api.domain.draft.dto.DraftStatusResult
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -23,7 +23,7 @@ class DraftController(
     private val draftService: DraftService,
 ) {
     @PostMapping()
-    fun pendDraft(
+    fun register(
         @Valid @RequestBody body: CreatePendingDraftRequest,
         @Parameter(hidden = true) webUser: WebUser,
     ): ApiResponse<Nothing> {
@@ -36,13 +36,13 @@ class DraftController(
         return ApiResponse.success()
     }
 
-    @GetMapping("/status")
-    fun status(
+    @GetMapping()
+    fun get(
         @Parameter(hidden = true) webUser: WebUser,
-    ): ApiResponse<List<DraftStatusResult>> {
-        val status = draftService.status(webUser.userId)
+    ): ApiResponse<DraftResponse> {
+        val status = draftService.readAll(webUser.userId)
 
-        return ApiResponse.success(status)
+        return ApiResponse.success(DraftResponse(status))
     }
 
     @GetMapping("/{id}")
@@ -50,8 +50,8 @@ class DraftController(
         @PathVariable(value = "id") id: Long,
         @Parameter(hidden = true) webUser: WebUser,
     ): ApiResponse<Draft> {
-        val draftWithImageGroups = draftService.read(id, webUser.userId)
+        val detail = draftService.readDetail(id, webUser.userId)
 
-        return ApiResponse.success(draftWithImageGroups)
+        return ApiResponse.success(detail)
     }
 }

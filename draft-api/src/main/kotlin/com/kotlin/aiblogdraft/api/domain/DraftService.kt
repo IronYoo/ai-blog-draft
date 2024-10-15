@@ -41,13 +41,13 @@ class DraftService(
         sqsProducer.send(QueueName.DRAFT_CONTENT_JOB_QUEUE, DraftContentJobMessage(draftId))
     }
 
-    fun status(userId: Long): List<DraftStatusResult> {
+    fun readAll(userId: Long): List<DraftStatusResult> {
         val drafts = draftReader.readAllByUserId(userId)
 
         return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByStatus(it.status)) }
     }
 
-    fun read(
+    fun readDetail(
         id: Long,
         userId: Long,
     ): Draft {
