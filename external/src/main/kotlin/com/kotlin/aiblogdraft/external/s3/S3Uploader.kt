@@ -18,13 +18,13 @@ class S3Uploader(
         UUID.randomUUID().toString() + "." + StringUtils.getFilenameExtension(originName)
 
     fun upload(files: Array<MultipartFile>): List<String> {
-        val urls =
+        val imageNames =
             files.map {
                 val imageName = generateUniqueImageName(it.originalFilename!!)
                 val s3Result = s3Template.upload(bucket, imageName, it.inputStream)
-                s3Result.url.toString()
+                imageName
             }
 
-        return urls
+        return imageNames
     }
 }

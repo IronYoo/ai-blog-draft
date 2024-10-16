@@ -14,6 +14,9 @@ spring:
       sqs:
         region: us-east-1
 
+image:
+  url: http://127.0.0.1:4566/ai-blog-draft
+
 ---
 spring.config.activate.on-profile: local
 
@@ -30,6 +33,9 @@ spring:
       sqs:
         region: us-east-1
 
+image:
+  url: http://127.0.0.1:4566/ai-blog-draft
+
 ---
 spring.config.activate.on-profile: live
 
@@ -44,3 +50,6 @@ spring:
         bucket: draft-blog
       sqs:
         region: ap-northeast-2
+
+image:
+  url: https://draft-image.mochayoo.site
