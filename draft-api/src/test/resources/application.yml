@@ -20,3 +20,6 @@ spring:
         region: test
         bucket: test
       endpoint: http://127.0.0.1:4566
+
+image:
+  url: https://test-image.mochayoo.site

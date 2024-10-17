@@ -11,10 +11,7 @@ class S3Remover(
     @Value("\${spring.cloud.aws.s3.bucket}")
     private lateinit var bucket: String
 
-    private fun extractFileNameFromUrl(url: String): String = url.substringAfterLast("/")
-
-    fun remove(url: String) {
-        val key = extractFileNameFromUrl(url)
+    fun remove(key: String) {
         s3Template.deleteObject(bucket, key)
     }
 }

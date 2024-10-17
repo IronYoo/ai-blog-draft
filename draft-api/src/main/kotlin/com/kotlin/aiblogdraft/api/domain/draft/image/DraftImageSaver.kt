@@ -1,6 +1,7 @@
 package com.kotlin.aiblogdraft.api.domain.draft.image
 
 import com.kotlin.aiblogdraft.api.domain.draft.image.dto.DraftImageType
+import com.kotlin.aiblogdraft.api.domain.draft.image.dto.StoreImage
 import com.kotlin.aiblogdraft.external.cloudfront.CloudFrontProcessor
 import com.kotlin.aiblogdraft.external.s3.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
@@ -27,17 +28,19 @@ class DraftImageSaver(
 
     private fun store(
         tempId: Long,
-        imageNames: List<String>,
+        storeImages: List<StoreImage>,
     ): List<DraftImageEntity> {
         val images =
             transactionHandler.executeTransaction {
                 val group = draftImageGroupRepository.save(DraftImageGroupEntity(tempId))
                 val imageEntities =
-                    imageNames.map {
+                    storeImages.map {
                         DraftImageEntity(
-                            url = cloudFrontProcessor.generateUrl(it),
+                            cdnUrl = cloudFrontProcessor.generateUrl(it.name),
                             draftImageGroupId = group.id,
-                            type = imageType(it).util,
+                            type = imageType(it.name).util,
+                            originUrl = it.url,
+                            name = it.name,
                         )
                     }
                 draftImageRepository.saveAll(imageEntities)
@@ -50,8 +53,8 @@ class DraftImageSaver(
         tempId: Long,
         files: Array<MultipartFile>,
     ): List<DraftImageEntity> {
-        val imageNames = s3Uploader.upload(files)
+        val s3UploadResult = s3Uploader.upload(files)
 
-        return store(tempId, imageNames)
+        return store(tempId, s3UploadResult.map { StoreImage(it.name, it.url) })
     }
 }

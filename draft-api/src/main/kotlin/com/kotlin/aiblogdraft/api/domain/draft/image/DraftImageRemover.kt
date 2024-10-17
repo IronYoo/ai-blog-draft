@@ -41,7 +41,7 @@ class DraftImageRemover(
     @Async
     @EventListener
     fun removeEventHandle(event: DraftImageDeleteEvent) {
-        event.urls.forEach {
+        event.names.forEach {
             log.info { "s3 remove ($it)" }
             s3Remover.remove(it)
         }

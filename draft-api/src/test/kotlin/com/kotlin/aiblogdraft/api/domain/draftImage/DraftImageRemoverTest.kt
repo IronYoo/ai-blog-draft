@@ -38,7 +38,10 @@ class DraftImageRemoverTest(
                     ),
                 )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
-            deleteImage = draftImageRepository.save(DraftImageEntity("test-url", group.id))
+            deleteImage =
+                draftImageRepository.save(
+                    DraftImageEntity(cdnUrl = "cdn-url", draftImageGroupId = group.id, originUrl = "origin-url", name = "image-name"),
+                )
             When("유저 정보가 다르면") {
                 then("접근할 수 없는 이미지 예외가 발생한다") {
                     shouldThrow<DraftImageNotAllowedException> {
@@ -54,8 +57,13 @@ class DraftImageRemoverTest(
                     ),
                 )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
-            draftImageRepository.save(DraftImageEntity("test-url", group.id))
-            deleteImage = draftImageRepository.save(DraftImageEntity("test-url2", group.id))
+            draftImageRepository.save(
+                DraftImageEntity(cdnUrl = "cdn-url", draftImageGroupId = group.id, originUrl = "origin-url", name = "image-name"),
+            )
+            deleteImage =
+                draftImageRepository.save(
+                    DraftImageEntity(cdnUrl = "cdn-url2", draftImageGroupId = group.id, originUrl = "origin-url2", name = "image-name"),
+                )
             When("해당 그룹에 삭제 대상외의 이미지가 있다면") {
                 val deleteImageId = deleteImage.id
                 draftImageRemover.remove(deleteImageId, 1L)
@@ -74,7 +82,10 @@ class DraftImageRemoverTest(
                     ),
                 )
             group = draftImageGroupRepository.save(DraftImageGroupEntity(temp.id))
-            deleteImage = draftImageRepository.save(DraftImageEntity("test-url", group.id))
+            deleteImage =
+                draftImageRepository.save(
+                    DraftImageEntity(cdnUrl = "cdn-url", draftImageGroupId = group.id, originUrl = "origin-url", name = "image-name"),
+                )
             When("해당 그룹에 삭제 대상만 있다면") {
                 val deleteImageId = deleteImage.id
                 draftImageRemover.remove(deleteImageId, 1L)

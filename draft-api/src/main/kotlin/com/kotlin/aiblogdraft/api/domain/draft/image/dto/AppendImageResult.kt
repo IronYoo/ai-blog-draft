@@ -10,7 +10,7 @@ data class AppendImageResult(
         fun fromImageEntity(entity: DraftImageEntity) =
             AppendImageResult(
                 id = entity.id,
-                url = entity.url,
+                url = entity.cdnUrl,
             )
     }
 }

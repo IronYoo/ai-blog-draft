@@ -9,11 +9,13 @@ import org.springframework.util.MimeTypeUtils
 @Entity
 @Table(name = "draft_image")
 class DraftImageEntity(
-    url: String,
+    cdnUrl: String,
     draftImageGroupId: Long,
     type: MimeType? = null,
+    originUrl: String,
+    name: String,
 ) : BaseEntity() {
-    var url: String = url
+    var cdnUrl: String = cdnUrl
         protected set
 
     @Column(name = "draft_image_group_id")
@@ -22,4 +24,17 @@ class DraftImageEntity(
 
     var imgType = type ?: MimeTypeUtils.IMAGE_JPEG
         protected set
+
+    var originUrl: String? = originUrl
+        protected set
+
+    var name: String = name
+        protected set
+
+    var resizedUrl: String? = null
+        protected set
+
+    fun resize(url: String) {
+        this.resizedUrl = url
+    }
 }

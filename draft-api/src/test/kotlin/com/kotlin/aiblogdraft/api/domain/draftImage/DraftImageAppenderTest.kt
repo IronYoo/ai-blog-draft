@@ -2,6 +2,7 @@ package com.kotlin.aiblogdraft.api.domain.draftImage
 
 import com.kotlin.aiblogdraft.api.domain.draft.image.DraftImageSaver
 import com.kotlin.aiblogdraft.api.image.S3UploaderStub
+import com.kotlin.aiblogdraft.external.cloudfront.CloudFrontProcessor
 import com.kotlin.aiblogdraft.storage.db.TransactionHandler
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageGroupRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
@@ -16,6 +17,7 @@ class DraftImageAppenderTest(
     private val draftImageGroupRepository: DraftImageGroupRepository,
     private val draftImageRepository: DraftImageRepository,
     private val transactionHandler: TransactionHandler = mockk(relaxed = true),
+    private val cloudFrontProcessor: CloudFrontProcessor,
 ) : BehaviorSpec({
         afterEach {
             draftImageRepository.deleteAll()
@@ -30,6 +32,7 @@ class DraftImageAppenderTest(
                     draftImageRepository,
                     s3Uploader,
                     transactionHandler,
+                    cloudFrontProcessor,
                 )
             val files = arrayOf(mockk<MultipartFile>(), mockk<MultipartFile>())
             When("정상적인 요청이면") {

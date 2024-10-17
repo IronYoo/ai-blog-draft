@@ -32,6 +32,6 @@ class DraftImageService(
         userId: Long,
     ) {
         val image = draftImageRemover.remove(imageId, userId)
-        applicationEventPublisher.publishEvent(DraftImageDeleteEvent(mutableListOf(image.url)))
+        applicationEventPublisher.publishEvent(DraftImageDeleteEvent(mutableListOf(image.name)))
     }
 }
