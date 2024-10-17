@@ -1,7 +1,12 @@
 package com.kotlin.aiblogdraft.batch.job.draftContent
 
 import com.kotlin.aiblogdraft.batch.domain.ai.AiDraftGenerator
+import com.kotlin.aiblogdraft.batch.domain.image.ImageResizer
+import com.kotlin.aiblogdraft.external.cloudfront.CloudFrontProcessor
+import com.kotlin.aiblogdraft.external.s3.S3Downloader
+import com.kotlin.aiblogdraft.external.s3.S3Uploader
 import com.kotlin.aiblogdraft.storage.db.entity.DraftContentEntity
+import com.kotlin.aiblogdraft.storage.db.entity.DraftImageEntity
 import com.kotlin.aiblogdraft.storage.db.entity.DraftImageGroupEntity
 import com.kotlin.aiblogdraft.storage.db.repository.DraftContentRepository
 import com.kotlin.aiblogdraft.storage.db.repository.DraftImageRepository
@@ -36,6 +41,10 @@ class DraftContentJobConfig(
     private val draftRepository: DraftRepository,
     private val draftImageRepository: DraftImageRepository,
     private val draftContentRepository: DraftContentRepository,
+    private val s3Downloader: S3Downloader,
+    private val imageResizer: ImageResizer,
+    private val s3Uploader: S3Uploader,
+    private val cloudFrontProcessor: CloudFrontProcessor,
 ) {
     val jobName = "draftContentJob"
     val chunkSize = 100
@@ -52,22 +61,32 @@ class DraftContentJobConfig(
     @JobScope
     fun processingDraftStep(): Step =
         StepBuilder(jobName + "_processingDraft_step", jobRepository)
-            .tasklet(processingDraftTasklet(null), transactionManager)
+            .chunk<DraftImageEntity, DraftImageEntity>(chunkSize, transactionManager)
+            .reader(imageItemReader(null))
+            .processor(imageResizeProcessor())
+            .writer(imageResizeWriter())
             .build()
 
     @Bean
     @JobScope
-    fun processingDraftTasklet(
+    fun imageItemReader(
         @Value("#{jobParameters['draftId']}") draftId: String?,
-    ): Tasklet =
-        Tasklet { _, _ ->
-            val parsedDraftId = draftId!!.toLong()
-            val draftEntity = draftRepository.findByIdOrNull(parsedDraftId) ?: throw IllegalArgumentException("존재하지 않는 초안입니다.")
-            draftEntity.process()
-            draftRepository.save(draftEntity)
+    ): JpaPagingItemReader<DraftImageEntity> {
+        val parsedDraftId = draftId!!.toLong()
+        val queryProvider = ImageJpaQueryProvider(parsedDraftId)
+        return JpaPagingItemReaderBuilder<DraftImageEntity>()
+            .name("imageItemReader")
+            .entityManagerFactory(entityManager.entityManagerFactory)
+            .pageSize(chunkSize)
+            .queryProvider(queryProvider)
+            .build()
+    }
 
-            RepeatStatus.FINISHED
-        }
+    @Bean
+    fun imageResizeProcessor() = ImageResizeProcessor(s3Downloader, imageResizer, s3Uploader, cloudFrontProcessor)
+
+    @Bean
+    fun imageResizeWriter() = ImageResizeWriter(draftImageRepository)
 
     @Bean
     @JobScope
@@ -87,7 +106,7 @@ class DraftContentJobConfig(
         val parsedDraftId = draftId!!.toLong()
         val queryProvider = ImageGroupJpaQueryProvider(parsedDraftId)
         return JpaPagingItemReaderBuilder<DraftImageGroupEntity>()
-            .name("draftItemReader")
+            .name("imageGroupItemReader")
             .entityManagerFactory(entityManager.entityManagerFactory)
             .pageSize(chunkSize)
             .queryProvider(queryProvider)

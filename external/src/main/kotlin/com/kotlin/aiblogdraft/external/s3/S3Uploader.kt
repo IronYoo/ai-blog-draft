@@ -19,7 +19,7 @@ class S3Uploader(
     private fun generateUniqueImageName(originName: String): String =
         UUID.randomUUID().toString() + "." + StringUtils.getFilenameExtension(originName)
 
-    fun uploadResized(files: Array<MultipartFile>): List<S3UploadResult> {
+    fun upload(files: Array<MultipartFile>): List<S3UploadResult> {
         val result =
             files.map {
                 val imageName = generateUniqueImageName(it.originalFilename!!)
@@ -33,9 +33,11 @@ class S3Uploader(
     fun uploadResized(
         key: String,
         imageBytes: ByteArray,
-    ) {
+    ): String {
         val inputStream = ByteArrayInputStream(imageBytes)
-        s3Template.upload(bucket, resizeImageFileName(key), inputStream)
+        val resizedName = resizeImageFileName(key)
+        s3Template.upload(bucket, resizedName, inputStream)
+        return resizedName
     }
 
     private fun resizeImageFileName(fileName: String): String {

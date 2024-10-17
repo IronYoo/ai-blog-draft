@@ -6,7 +6,7 @@ import io.mockk.mockk
 import org.springframework.web.multipart.MultipartFile
 
 class S3UploaderStub : S3Uploader(mockk()) {
-    override fun uploadResized(files: Array<MultipartFile>): List<S3UploadResult> =
+    override fun upload(files: Array<MultipartFile>): List<S3UploadResult> =
         files.mapIndexed { index, _ ->
             S3UploadResult(
                 url = "https://test-image.mochayoo.site/image_$index.jpeg",
