@@ -23,7 +23,7 @@ class AiDraftGenerator(
         images: List<DraftImageEntity>,
     ): String {
         val prompt = getPrompt(draft)
-        val userMessage = UserMessage(prompt, images.map { Media(it.imgType, URI(it.url).toURL()) })
+        val userMessage = UserMessage(prompt, images.map { Media(it.imgType, URI(it.cdnUrl).toURL()) })
         val response =
             chatClient
                 .prompt(Prompt(userMessage, OpenAiChatOptions.builder().withModel(OpenAiApi.ChatModel.GPT_4_O).build()))
