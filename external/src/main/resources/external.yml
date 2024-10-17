@@ -17,6 +17,9 @@ spring:
 image:
   url: http://127.0.0.1:4566/ai-blog-draft
 
+sqs:
+  url: http://127.0.0.1:4566
+
 ---
 spring.config.activate.on-profile: local
 
@@ -36,6 +39,9 @@ spring:
 image:
   url: http://127.0.0.1:4566/ai-blog-draft
 
+sqs:
+  url: http://127.0.0.1:4566
+
 ---
 spring.config.activate.on-profile: live
 
@@ -53,3 +59,6 @@ spring:
 
 image:
   url: https://draft-image.mochayoo.site
+
+sqs:
+  url: https://sqs.ap-northeast-2.amazonaws.com

@@ -10,18 +10,22 @@ import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.auth.credentials.AwsCredentials
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
+import java.net.URI
 
 @Configuration
 @Profile("!test")
 class SqsConfig {
     @Value("\${spring.cloud.aws.credentials.access-key}")
-    val accessKey: String? = null
+    lateinit var accessKey: String
 
     @Value("\${spring.cloud.aws.credentials.secret-key}")
-    val secretKey: String? = null
+    lateinit var secretKey: String
 
     @Value("\${spring.cloud.aws.sqs.region}")
-    val region: String? = null
+    lateinit var region: String
+
+    @Value("\${sqs.url}")
+    lateinit var url: String
 
     private fun credentialProvider(): AwsCredentials =
         object : AwsCredentials {
@@ -38,6 +42,7 @@ class SqsConfig {
 
         return client
             .credentialsProvider(this::credentialProvider)
+            .endpointOverride(URI.create(url))
             .region(Region.of(region))
             .build()
     }
