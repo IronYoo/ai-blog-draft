@@ -29,11 +29,11 @@ class ExpiredDraftTempJobConfig(
     private val entityManager: EntityManager,
     private val draftTempRepository: DraftTempRepository,
 ) {
-    val jobName = "imageExpiredJob"
+    val jobName = "expiredDraftTempJob"
     val chunkSize = 500
 
-    @Bean("imageExpiredJob")
-    fun imageExpiredJob(): Job =
+    @Bean("expiredDraftTempJob")
+    fun expiredDraftTempJob(): Job =
         JobBuilder(jobName, jobRepository)
             .start(imageExpiredStep())
             .build()
