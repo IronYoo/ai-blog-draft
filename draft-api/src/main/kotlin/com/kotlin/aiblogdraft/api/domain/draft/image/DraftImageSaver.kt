@@ -53,7 +53,7 @@ class DraftImageSaver(
         tempId: Long,
         files: Array<MultipartFile>,
     ): List<DraftImageEntity> {
-        val s3UploadResult = s3Uploader.upload(files)
+        val s3UploadResult = s3Uploader.uploadResized(files)
 
         return store(tempId, s3UploadResult.map { StoreImage(it.name, it.url) })
     }

@@ -18,12 +18,13 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-function-kotlin:3.2.8")
     implementation("org.springframework.cloud:spring-cloud-function-adapter-aws:3.2.8")
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-batch")
     testImplementation("org.springframework.batch:spring-batch-test")
 
     implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
     implementation("org.springframework.cloud:spring-cloud-function-web:4.1.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("net.coobird:thumbnailator:0.4.20")
 }
 
 tasks.withType<Jar> {

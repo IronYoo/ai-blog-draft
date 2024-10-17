@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.multipart.MultipartFile
+import java.io.ByteArrayInputStream
 import java.util.UUID
 
 @Component
@@ -18,7 +19,7 @@ class S3Uploader(
     private fun generateUniqueImageName(originName: String): String =
         UUID.randomUUID().toString() + "." + StringUtils.getFilenameExtension(originName)
 
-    fun upload(files: Array<MultipartFile>): List<S3UploadResult> {
+    fun uploadResized(files: Array<MultipartFile>): List<S3UploadResult> {
         val result =
             files.map {
                 val imageName = generateUniqueImageName(it.originalFilename!!)
@@ -27,5 +28,24 @@ class S3Uploader(
             }
 
         return result
+    }
+
+    fun uploadResized(
+        key: String,
+        imageBytes: ByteArray,
+    ) {
+        val inputStream = ByteArrayInputStream(imageBytes)
+        s3Template.upload(bucket, resizeImageFileName(key), inputStream)
+    }
+
+    private fun resizeImageFileName(fileName: String): String {
+        val extensionIndex = fileName.lastIndexOf('.')
+        return if (extensionIndex != -1) {
+            val nameWithoutExtension = fileName.substring(0, extensionIndex)
+            val extension = fileName.substring(extensionIndex)
+            "${nameWithoutExtension}_resized$extension"
+        } else {
+            "${fileName}_resized"
+        }
     }
 }
