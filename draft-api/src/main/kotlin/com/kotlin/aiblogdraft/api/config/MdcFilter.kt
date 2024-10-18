@@ -35,10 +35,15 @@ class MdcFilter : OncePerRequestFilter() {
             val wrappedRequest = CustomHttpServletRequestWrapper(request)
             val wrappedResponse = CustomHttpServletResponseWrapper(response)
 
-            logRequest(wrappedRequest)
-            filterChain.doFilter(wrappedRequest, wrappedResponse)
-            wrappedResponse.copyBodyToResponse()
-            logResponse(wrappedResponse)
+            if (wrappedRequest.requestURI.startsWith("/v1")) {
+                logRequest(wrappedRequest)
+                filterChain.doFilter(wrappedRequest, wrappedResponse)
+                wrappedResponse.copyBodyToResponse()
+                logResponse(wrappedResponse)
+            } else {
+                filterChain.doFilter(wrappedRequest, wrappedResponse)
+                wrappedResponse.copyBodyToResponse()
+            }
         } finally {
             MDC.clear()
         }

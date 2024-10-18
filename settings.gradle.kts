@@ -6,5 +6,5 @@ include(
     "storage",
     "logging",
     "external",
-    "external:sqs",
+    "draft-client",
 )

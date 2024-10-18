@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":storage"))
     implementation(project(":logging"))
     implementation(project(":external"))
+    implementation(project(":draft-client"))
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 버튼 중앙 정렬 */
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            max-width: 200px; /* 버튼 너비 제한 */
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .test-account-btn {
+            background-color: #2196F3;
+        }
+
+        .test-account-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .login-container p {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        async function login(event) {
+            event.preventDefault(); // 페이지 리프레시 방지
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch('http://localhost:8080/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            if (response.ok) {
+                window.location.href = "/"; // 로그인 성공 시 리다이렉션
+            } else {
+                alert("로그인에 실패했습니다.");
+            }
+        }
+
+        async function loginWithTestAccount() {
+            const email = "test@email.com";
+            const password = "abcd1234";
+
+            const response = await fetch('http://localhost:8080/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            if (response.ok) {
+                window.location.href = "/home"; // 로그인 성공 시 리다이렉션
+            } else {
+                alert("테스트 계정으로 로그인에 실패했습니다.");
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="login-container">
+    <h1>로그인</h1>
+    <form onsubmit="login(event)">
+        <label for="email">이메일:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required>
+
+        <div class="button-container">
+            <button type="submit">로그인</button>
+            <button type="button" class="test-account-btn" onclick="loginWithTestAccount()">테스트 계정 사용하기</button>
+        </div>
+    </form>
+    <p>계정이 없으신가요? <a href="/signup">회원가입</a></p>
+</div>
+</body>
+</html>
