@@ -44,7 +44,7 @@ class DraftService(
     fun readAll(userId: Long): List<DraftStatusResult> {
         val drafts = draftReader.readAllByUserId(userId)
 
-        return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByStatus(it.status)) }
+        return drafts.map { DraftStatusResult(it.id, it.title, DraftStatus.findByStatus(it.status), it.createdAt) }
     }
 
     fun readDetail(
