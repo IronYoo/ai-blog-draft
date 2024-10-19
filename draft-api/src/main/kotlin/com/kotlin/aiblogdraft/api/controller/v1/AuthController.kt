@@ -1,13 +1,17 @@
 package com.kotlin.aiblogdraft.api.controller.v1
 
+import com.kotlin.aiblogdraft.api.common.UserOrGuest
 import com.kotlin.aiblogdraft.api.common.WebCookieBuilder
 import com.kotlin.aiblogdraft.api.config.ApiResponse
 import com.kotlin.aiblogdraft.api.controller.v1.request.LoginRequest
 import com.kotlin.aiblogdraft.api.controller.v1.request.SignupRequest
+import com.kotlin.aiblogdraft.api.controller.v1.response.MeResponse
 import com.kotlin.aiblogdraft.api.domain.AuthService
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -38,5 +42,13 @@ class AuthController(
         response.addHeader("Set-Cookie", cookie.toString())
 
         return ApiResponse.success()
+    }
+
+    @GetMapping("/me")
+    fun me(
+        @Parameter(hidden = true) userOrGuest: UserOrGuest,
+    ): ApiResponse<MeResponse> {
+        val meResponse = MeResponse(userOrGuest.username)
+        return ApiResponse.success(meResponse)
     }
 }
