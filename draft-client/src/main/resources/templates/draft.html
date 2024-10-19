@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초안 등록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #imagePreview {
+            margin-top: 20px;
+        }
+
+        .image-group {
+            margin-bottom: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .image-group-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .image-container {
+            display: inline-block;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .image-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 18px;
+            text-align: center;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<h1>초안 등록</h1>
+<form id="draftForm">
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="type">타입:</label>
+    <select id="type" name="type">
+        <option value="RESTAURANT">RESTAURANT</option>
+        <!-- 다른 타입 추가 가능 -->
+    </select>
+
+    <button type="button" id="addGroupButton">이미지 그룹 추가</button>
+
+    <input type="file" id="imageInput" name="images" multiple style="display: none;">
+
+    <div id="imagePreview"></div>
+
+    <button type="submit">초안 등록</button>
+</form>
+
+<script>
+    let tempId;
+    let imageGroups = [];
+
+    // 페이지 로드 시 임시초안 생성
+    window.onload = async function() {
+        try {
+            const response = await fetch('/v1/drafts/temp', {
+                method: 'POST'
+            });
+            const data = await response.json();
+            if (data.result === "SUCCESS") {
+                tempId = data.data.tempId;
+            } else {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            window.location.href = '/login';
+        }
+    };
+
+    // 그룹 추가 버튼 클릭 시 파일 선택 트리거
+    document.getElementById('addGroupButton').addEventListener('click', function() {
+        document.getElementById('imageInput').click();
+    });
+
+    // 이미지 선택 시 자동 업로드
+    document.getElementById('imageInput').addEventListener('change', async function() {
+        const files = this.files;
+        if (files.length === 0) {
+            return;
+        }
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+        formData.append('tempId', tempId);
+
+        try {
+            const response = await fetch('/v1/drafts/images', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.result === "SUCCESS") {
+                const images = data.data;
+                imageGroups.push(images);
+                displayImagePreviews(images);
+            } else {
+                alert('이미지 업로드 실패');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('이미지 업로드 중 오류 발생');
+        }
+    });
+
+    // 이미지 미리보기 표시
+    function displayImagePreviews(images) {
+        const previewContainer = document.getElementById('imagePreview');
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'image-group';
+
+        const groupTitle = document.createElement('div');
+        groupTitle.className = 'image-group-title';
+        groupTitle.textContent = `그룹 ${imageGroups.length}`;
+        groupDiv.appendChild(groupTitle);
+
+        images.forEach(image => {
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'image-container';
+
+            const img = document.createElement('img');
+            img.src = image.url;
+            imageContainer.appendChild(img);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'x';
+            deleteButton.onclick = () => deleteImage(image.id, imageContainer, groupDiv);
+            imageContainer.appendChild(deleteButton);
+
+            groupDiv.appendChild(imageContainer);
+        });
+
+        previewContainer.appendChild(groupDiv);
+    }
+
+    // 이미지 삭제
+    async function deleteImage(imageId, imageContainer, groupDiv) {
+        try {
+            const response = await fetch(`/v1/drafts/image/${imageId}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            if (data.result === "SUCCESS") {
+                imageContainer.remove();
+                // 그룹이 비어 있으면 그룹 제거
+                if (groupDiv.querySelectorAll('.image-container').length === 0) {
+                    groupDiv.remove();
+                    // 이미지 그룹 배열에서 해당 그룹 제거
+                    imageGroups = imageGroups.filter(group => group.some(image => image.id !== imageId));
+                    updateGroupTitles();
+                }
+            } else {
+                alert('이미지 삭제 실패');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('이미지 삭제 중 오류 발생');
+        }
+    }
+
+    // 그룹 제목 업데이트
+    function updateGroupTitles() {
+        const groupTitles = document.querySelectorAll('.image-group-title');
+        groupTitles.forEach((title, index) => {
+            title.textContent = `그룹 ${index + 1}`;
+        });
+    }
+
+    // 초안 등록
+    document.getElementById('draftForm').onsubmit = async function(event) {
+        event.preventDefault();
+
+        if (imageGroups.length === 0) {
+            alert('이미지 그룹을 하나 이상 등록하세요.');
+            return;
+        }
+
+        const title = document.getElementById('title').value;
+        const type = document.getElementById('type').value;
+
+        const draftData = {
+            tempId: tempId,
+            type: type,
+            title: title
+        };
+
+        try {
+            const response = await fetch('/v1/drafts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(draftData)
+            });
+            const data = await response.json();
+            if (data.result === "SUCCESS") {
+                window.location.href = '/';
+            } else {
+                alert('초안 등록 실패');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('초안 등록 중 오류 발생');
+        }
+    };
+</script>
+</body>
+</html>
