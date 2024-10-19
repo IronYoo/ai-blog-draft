@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class DisplayWeb {
-    @GetMapping("/home")
+    @GetMapping("/")
     fun home(model: Model): String = "index"
 }

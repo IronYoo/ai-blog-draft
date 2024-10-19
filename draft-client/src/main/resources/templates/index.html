@@ -1,9 +1,231 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
-    <title>Sign Up</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초안 상태 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .draft-list {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .draft-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .draft-item:last-child {
+            border-bottom: none;
+        }
+        .draft-title {
+            font-size: 16px;
+            color: #555;
+        }
+        .draft-status {
+            font-size: 14px;
+            color: #888;
+        }
+        .draft-link {
+            text-decoration: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .draft-link.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        .tooltip {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .tooltip.show {
+            opacity: 1;
+        }
+        .user-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background-color: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 18px;
+        }
+        .user-info {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 1000;
+        }
+        .user-info.show {
+            display: block;
+        }
+        .logout-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<h1>Home</h1>
+
+<h1>초안 상태 목록</h1>
+<div class="draft-list" id="draftList">
+    <!-- 초안 항목이 여기에 추가됩니다. -->
+</div>
+
+<div class="tooltip" id="tooltip">완료된 초안만 볼 수 있습니다.</div>
+<div class="user-icon" id="userIcon"></div>
+<div class="user-info" id="userInfo">
+    <div id="username"></div>
+    <button class="logout-button" onclick="logout()">로그아웃</button>
+</div>
+
+<script>
+    const statusMapping = {
+        "PENDING": "대기 중",
+        "PROCESSING": "처리 중",
+        "DONE": "완료"
+    };
+
+    async function fetchUser() {
+        try {
+            const response = await fetch('/v1/auth/me');
+            const result = await response.json();
+
+            if (result.result === "SUCCESS") {
+                const username = result.data.username;
+                if (!username) {
+                    window.location.href = '/login';
+                } else {
+                    document.getElementById('username').textContent = `안녕하세요, ${username}님`;
+                    // userIcon의 텍스트를 username의 첫 글자로 설정
+                    document.getElementById('userIcon').textContent = username.charAt(0).toUpperCase();
+                }
+            } else {
+                console.error("사용자 정보를 가져오는 데 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("오류 발생:", error);
+        }
+    }
+    async function fetchDrafts() {
+        try {
+            const response = await fetch('/v1/drafts');
+            const result = await response.json();
+
+            if (result.result === "SUCCESS") {
+                const drafts = result.data.drafts;
+                const draftList = document.getElementById('draftList');
+
+                drafts.forEach(draft => {
+                    const draftItem = document.createElement('div');
+                    draftItem.className = 'draft-item';
+
+                    const draftTitle = document.createElement('span');
+                    draftTitle.className = 'draft-title';
+                    draftTitle.textContent = draft.title;
+
+                    const draftStatus = document.createElement('span');
+                    draftStatus.className = 'draft-status';
+                    draftStatus.textContent = statusMapping[draft.status];
+
+                    const draftLink = document.createElement('a');
+                    draftLink.className = 'draft-link';
+                    draftLink.textContent = '보기';
+                    if (draft.status === 'DONE') {
+                        draftLink.href = `/drafts/${draft.id}`;
+                    } else {
+                        draftLink.classList.add('disabled');
+                        draftLink.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            showTooltip();
+                        });
+                    }
+
+                    draftItem.appendChild(draftTitle);
+                    draftItem.appendChild(draftStatus);
+                    draftItem.appendChild(draftLink);
+
+                    draftList.appendChild(draftItem);
+                });
+            } else {
+                console.error("데이터를 가져오는 데 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("오류 발생:", error);
+        }
+    }
+
+    function showTooltip() {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.classList.add('show');
+        setTimeout(() => {
+            tooltip.classList.remove('show');
+        }, 3000);
+    }
+
+    function toggleUserInfo() {
+        const userInfo = document.getElementById('userInfo');
+        userInfo.classList.toggle('show');
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + '=; path=/; domain=' + window.location.hostname + '; HttpOnly';
+    }
+
+    function logout() {
+        deleteCookie('ABDKN');
+
+        window.location.href = '/login';
+    }
+
+    document.getElementById('userIcon').addEventListener('click', toggleUserInfo);
+
+    fetchUser();
+    fetchDrafts();
+</script>
+
 </body>
 </html>
+
