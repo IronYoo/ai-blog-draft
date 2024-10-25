@@ -204,6 +204,7 @@
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'delete-button';
+            // deleteButton.type = 'button'
             deleteButton.textContent = 'x';
             deleteButton.onclick = () => deleteImage(image.id, imageContainer, groupDiv);
             imageContainer.appendChild(deleteButton);
