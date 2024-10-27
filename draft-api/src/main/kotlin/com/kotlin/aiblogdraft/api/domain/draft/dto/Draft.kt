@@ -20,7 +20,7 @@ data class Draft(
                 status = DraftStatus.findByStatus(dto.draft.status),
                 imageGroups =
                     dto.groups.map { group ->
-                        val images = group.images.map { DraftImage(it.id, it.cdnUrl) }
+                        val images = group.images.map { DraftImage(it.id, it.resizedUrl!!) }
                         DraftImageGroup(group.id, images, group.content!!)
                     },
             )
